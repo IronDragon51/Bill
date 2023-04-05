@@ -1,4 +1,5 @@
-﻿namespace Bill
+﻿
+namespace Bill
 {
     public class Program
     {
@@ -6,7 +7,6 @@
         {
             Console.WriteLine("Add groups/people");
 
-            //bool exit = false;
             string input;
             while (true)
             {
@@ -14,7 +14,6 @@
                 input = Console.ReadLine()!;
                 if (input == "1")
                 {
-                    //exit = true;
                     break;
                 }
                 else
@@ -24,10 +23,33 @@
 
             }
 
-            foreach (var item in Groups.groups)
+            Console.WriteLine("Select a group/person to add prices to");
+
+            input = Console.ReadLine()!;
+            foreach (Group group in groups)
             {
-                Console.WriteLine(item.Name + item.TotalWithFee + item.Total);
+                foreach (var item in collection)
+                {
+
+                }
             }
+
+            Console.WriteLine("Add item price");
+            while (true)
+            {
+                Console.WriteLine("Press 1 to exit");
+                double price = Convert.ToDouble(Console.ReadLine());
+                if (input == "1")
+                {
+                    break;
+                }
+                else
+                {
+                    matchingName.AddItem
+                }
+
+            }
+
         }
     }
 }
