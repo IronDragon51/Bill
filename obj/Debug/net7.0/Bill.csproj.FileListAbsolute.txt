@@ -1,0 +1,15 @@
+C:\VS\Bill\bin\Debug\net7.0\Bill.exe
+C:\VS\Bill\bin\Debug\net7.0\Bill.deps.json
+C:\VS\Bill\bin\Debug\net7.0\Bill.runtimeconfig.json
+C:\VS\Bill\bin\Debug\net7.0\Bill.dll
+C:\VS\Bill\bin\Debug\net7.0\Bill.pdb
+C:\VS\Bill\obj\Debug\net7.0\Bill.csproj.AssemblyReference.cache
+C:\VS\Bill\obj\Debug\net7.0\Bill.GeneratedMSBuildEditorConfig.editorconfig
+C:\VS\Bill\obj\Debug\net7.0\Bill.AssemblyInfoInputs.cache
+C:\VS\Bill\obj\Debug\net7.0\Bill.AssemblyInfo.cs
+C:\VS\Bill\obj\Debug\net7.0\Bill.csproj.CoreCompileInputs.cache
+C:\VS\Bill\obj\Debug\net7.0\Bill.dll
+C:\VS\Bill\obj\Debug\net7.0\refint\Bill.dll
+C:\VS\Bill\obj\Debug\net7.0\Bill.pdb
+C:\VS\Bill\obj\Debug\net7.0\Bill.genruntimeconfig.cache
+C:\VS\Bill\obj\Debug\net7.0\ref\Bill.dll
