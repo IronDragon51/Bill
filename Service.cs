@@ -2,17 +2,18 @@
 {
     public class Service
     {
+        public static double serviceFeePercent = 0;
+        readonly static int zero = (int)ServiceFee.zero;
+        readonly static int low = (int)ServiceFee.low;
+        readonly static int medium = (int)ServiceFee.medium;
+        readonly static int high = (int)ServiceFee.high;
+
         public static void ChooseServiceFee(string groupName, Groups groups, Receipt receipt)
         {
             Console.WriteLine("--------------------------------");
             Console.WriteLine("Choose service fee:");
             Group? group = Groups.groups.FirstOrDefault(g => g.Name == groupName);
 
-            double serviceFeePercent = 0;
-            int zero = (int)ServiceFee.zero;
-            int low = (int)ServiceFee.low;
-            int medium = (int)ServiceFee.medium;
-            int high = (int)ServiceFee.high;
 
             Console.WriteLine($"1) {zero}% fee");
             Console.WriteLine($"2) {low}% fee");
@@ -20,6 +21,11 @@
             Console.WriteLine($"4) {high}% fee");
 
             string feeChoosen = Console.ReadLine()!;
+            AddServiceFee(group, feeChoosen);
+        }
+
+        private static void AddServiceFee(Group? group, string feeChoosen)
+        {
             bool exit = false;
             while (!exit)
             {
