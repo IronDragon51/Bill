@@ -1,11 +1,11 @@
 ﻿
 namespace Bill
 {
-    enum ServiceFee
+    enum ServiceFee : int
     {
         zero = 0,
         low = 8,
-        normal = 10,
+        medium = 10,
         high = 12
     }
 
@@ -26,7 +26,6 @@ namespace Bill
                     _totalDivided += currentGroup.Total;
                 }
             }
-
         }
 
         public double TotalWithFee { get; init; }

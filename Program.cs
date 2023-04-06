@@ -1,55 +1,36 @@
-﻿
-namespace Bill
+﻿namespace Bill
 {
     public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Add groups/people");
+            Groups groups = new();
+            Receipt receipt = new();
+            string input = Add.AddGroups(groups);
 
-            string input;
-            while (true)
-            {
-                Console.WriteLine("Press 1 to exit");
-                input = Console.ReadLine()!;
-                if (input == "1")
-                {
-                    break;
-                }
-                else
-                {
-                    Groups.AddNewGroup(input);
-                }
-
-            }
-
+            Console.WriteLine("--------------------------------");
             Console.WriteLine("Select a group/person to add prices to");
 
             input = Console.ReadLine()!;
-            foreach (Group group in groups)
+
+            try
             {
-                foreach (var item in collection)
+                if (!Groups.groups.Any(n => n.Name == input))
                 {
 
                 }
             }
-
-            Console.WriteLine("Add item price");
-            while (true)
+            catch (Exception e)
             {
-                Console.WriteLine("Press 1 to exit");
-                double price = Convert.ToDouble(Console.ReadLine());
-                if (input == "1")
-                {
-                    break;
-                }
-                else
-                {
-                    matchingName.AddItem
-                }
-
+                throw new ArgumentException($"No group like this ({input}) / {e}");
             }
+
+            Add.AddItems(input, groups, receipt);
+
+            Service.ChooseServiceFee(input, groups, receipt);
 
         }
+
+
     }
 }
