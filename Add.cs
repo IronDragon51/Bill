@@ -119,19 +119,14 @@
             Console.WriteLine($"With service fee included: {Math.Round(receipt.TotalWithFee, 2)} {currency}");
             Console.WriteLine("--------------------------------\n");
 
-            Console.WriteLine("Ready? (y/n)");
-            string input = Console.ReadLine()!;
-            if (input == "y")
+            if (Groups.groups.All(g => g.Total > 0))
             {
-                Environment.Exit(1);
-            }
-            else if (input == "n")
-            {
-                AddLoop(groups, receipt, currency);
-            }
-            else
-            {
-                Console.WriteLine("Wrong input! Type 'y' or 'n'");
+                Console.WriteLine("All groups/person calculated!");
+                Console.WriteLine("Name: Total");
+                foreach (Group currGroup in Groups.groups)
+                {
+                    Console.WriteLine($"{currGroup.Name} - {currGroup.ToStringTotal(currency)} - {currGroup.ToStringTotalWithFee(currency)}");
+                }
             }
 
         }
