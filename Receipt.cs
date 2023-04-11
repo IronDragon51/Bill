@@ -19,5 +19,16 @@
     {
         public double Total { get; set; }
         public double TotalWithFee { get; set; }
+
+        public string ToStringTotal(string currency)
+        {
+            return string.Format("{0} - {1}", Math.Round(Total, 2), currency);
+        }
+
+        public string ToStringTotalWithFee(string currency)
+        {
+            return string.Format("{0} - {1}", Math.Round(TotalWithFee, 2), currency);
+        }
     }
+
 }

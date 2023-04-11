@@ -30,16 +30,6 @@
                 Console.WriteLine(e.Message);
             }
 
-            if (Groups.groups.All(g => g.Total > 0))
-            {
-                Console.WriteLine("All groups/person calculated!");
-                Console.WriteLine("Name: Total");
-                foreach (Group currGroup in Groups.groups)
-                {
-                    Console.WriteLine($"{currGroup.Name} - {currGroup.ToStringTotal(currency)} - {currGroup.ToStringTotalWithFee(currency)}");
-                }
-            }
-
             if (group.Total > 0)
             {
                 Console.WriteLine("Already calculated!");

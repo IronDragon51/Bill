@@ -5,9 +5,9 @@
         public static void AddLoop(Groups groups, Receipt receipt, string currency)
         {
             string selectedGroup = Select.SelectGroup(currency);
-            Group group = AddItems(selectedGroup, groups, receipt, currency);
+            Group group = AddItems(selectedGroup, receipt, currency);
             string feeChoosen = Service.ChooseServiceFee(selectedGroup, groups, group, receipt, currency);
-            AddServiceFee(groups, group, feeChoosen, currency, receipt);
+            AddServiceFee(group, feeChoosen, currency, receipt);
         }
 
 
@@ -42,7 +42,7 @@
         }
 
 
-        public static Group AddItems(string selectedGroup, Groups groups, Receipt receipt, string currency)
+        public static Group AddItems(string selectedGroup, Receipt receipt, string currency)
         {
             Console.Clear();
             Console.WriteLine("--------------------------------");
@@ -59,11 +59,11 @@
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    Console.WriteLine($"Added {price} {currency}. Current total: {group.Total} {currency}");
+                    Console.WriteLine($"Added {price} {currency}. Current total: {group.ToStringTotal(currency)}");
                 }
                 else if (success && price == 0)
                 {
-                    Console.WriteLine($"Total price to pay: {group!.Total} {currency}");
+                    Console.WriteLine($"Total price to pay: {group.ToStringTotal(currency)}");
                     break;
                 }
                 else
@@ -76,7 +76,7 @@
         }
 
 
-        public static void AddServiceFee(Groups groups, Group group, string feeChoosen, string currency, Receipt receipt)
+        public static void AddServiceFee(Group group, string feeChoosen, string currency, Receipt receipt)
         {
             double serviceFeePercent = 0;
             bool exit = false;
@@ -112,13 +112,25 @@
 
             group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent) / 100;
             receipt.TotalWithFee += group.TotalWithFee;
-            Console.Clear();
-            Console.WriteLine($"{group.Name}, total price to pay is: ");
-            Console.WriteLine($"With service fee included: {group.ToStringTotal(currency)}\n");
-            Console.WriteLine($"For everyone, total price to pay is: {group.ToStringTotalWithFee(currency)}");
-            Console.WriteLine($"With service fee included: {Math.Round(receipt.TotalWithFee, 2)} {currency}");
-            Console.WriteLine("--------------------------------\n");
 
+            ShowPricesDatas(group, currency, receipt);
+            CheckAllCalculated(currency);
+        }
+
+
+        private static void ShowPricesDatas(Group group, string currency, Receipt receipt)
+        {
+            Console.Clear();
+            Console.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
+            Console.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
+            Console.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
+            Console.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(currency)}");
+            Console.WriteLine("--------------------------------\n");
+        }
+
+
+        private static void CheckAllCalculated(string currency)
+        {
             if (Groups.groups.All(g => g.Total > 0))
             {
                 Console.WriteLine("All groups/person calculated!");
@@ -127,6 +139,7 @@
                 {
                     Console.WriteLine($"{currGroup.Name} - {currGroup.ToStringTotal(currency)} - {currGroup.ToStringTotalWithFee(currency)}");
                 }
+                Environment.Exit(0);
             }
 
         }
