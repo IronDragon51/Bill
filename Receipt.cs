@@ -1,5 +1,4 @@
-﻿
-namespace Bill
+﻿namespace Bill
 {
     enum ServiceFee : int
     {
@@ -9,25 +8,16 @@ namespace Bill
         high = 12
     }
 
+    enum Currency
+    {
+        EUR,
+        USD,
+        HUF
+    }
+
     public class Receipt
     {
         public double Total { get; set; }
-        private double _totalDivided;
-        public double TotalDevided
-        {
-            get
-            {
-                return _totalDivided;
-            }
-            set
-            {
-                foreach (Group currentGroup in Groups.groups)
-                {
-                    _totalDivided += currentGroup.Total;
-                }
-            }
-        }
-
-        public double TotalWithFee { get; init; }
+        public double TotalWithFee { get; set; }
     }
 }
