@@ -1,50 +1,21 @@
-﻿namespace Bill
+﻿using Bill.Definition;
+
+namespace Bill
 {
     public class Select
     {
         public static string SelectGroup(string currency)
         {
-            Console.Clear();
-            Console.WriteLine("--------------------------------");
-            Console.WriteLine("Select a group/person to add prices to!\n");
-            Console.WriteLine("Options:");
-
-            foreach (Group currentGroup in Groups.groups)
-            {
-                Console.WriteLine(currentGroup.Name);
-            }
-            Console.WriteLine();
+            Show.ShowSelectableGroups();
 
             Group group = new("")!;
             string selectedGroup = Console.ReadLine()!;
-            try
-            {
-                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroup)!;
-                if (string.IsNullOrEmpty(group.Name))
-                {
-                    throw new Exception("No group like this!");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
             if (group.Total > 0)
             {
-                Console.WriteLine("Already calculated!");
-                Console.WriteLine("Calculate anyway? (y/n)");
-                string input = Console.ReadLine()!;
-                if (input == "n")
-                {
-                    SelectGroup(currency);
-                }
-                else if (input != "y")
-                {
-                    Console.WriteLine("Wrong input! Type 'y' or 'n'");
-                }
+                Show.AlreadyCalculated(currency);
             }
-
 
             return selectedGroup;
         }
@@ -52,13 +23,7 @@
 
         public static string SelectCurrency()
         {
-            Console.Clear();
-            Console.WriteLine("--------------------------------");
-            Console.WriteLine("Select a currency!\n");
-            Console.WriteLine("Options:");
-            Console.WriteLine($"1) {Currency.USD}");
-            Console.WriteLine($"2) {Currency.EUR}");
-            Console.WriteLine($"3) {Currency.HUF}");
+            Show.ShowCurrencies();
 
             string currency = "";
             string choice = Console.ReadLine()!;
@@ -68,18 +33,15 @@
                 switch (choice)
                 {
                     case "1":
-                        currency = Currency.USD.ToString();
-                        exit = true;
+                        currency = SetCurrency(out exit, Currency.USD);
                         break;
 
                     case "2":
-                        currency = Currency.EUR.ToString();
-                        exit = true;
+                        currency = SetCurrency(out exit, Currency.EUR);
                         break;
 
                     case "3":
-                        currency = Currency.HUF.ToString();
-                        exit = true;
+                        currency = SetCurrency(out exit, Currency.HUF);
                         break;
 
                     default:
@@ -89,6 +51,12 @@
             }
 
             return currency;
+        }
+
+        public static string SetCurrency(out bool exit, Currency enumCurrency)
+        {
+            exit = true;
+            return enumCurrency.ToString();
         }
     }
 }

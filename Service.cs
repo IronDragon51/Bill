@@ -1,8 +1,10 @@
-﻿namespace Bill
+﻿using Bill.Definition;
+
+namespace Bill
 {
     public class Service
     {
-        public static string ChooseServiceFee(string selectedGroupName, Groups groups, Group groupInput, Receipt receipt, string currency)
+        public static string ChooseServiceFee(string selectedGroupName)
         {
             Console.Clear();
             Console.WriteLine("--------------------------------");

@@ -1,4 +1,6 @@
-﻿namespace Bill
+﻿using Bill.Definition;
+
+namespace Bill
 {
     public class Program
     {
@@ -10,7 +12,7 @@
 
             Add.AddGroups(groups);
             string currency = Select.SelectCurrency();
-            Add.AddLoop(groups, receipt, currency);
+            Add.AddLoop(receipt, currency);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Bill
+﻿namespace Bill.Definition
 {
     public class Group
     {

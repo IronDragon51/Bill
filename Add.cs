@@ -1,12 +1,14 @@
-﻿namespace Bill
+﻿using Bill.Definition;
+
+namespace Bill
 {
     public class Add
     {
-        public static void AddLoop(Groups groups, Receipt receipt, string currency)
+        public static void AddLoop(Receipt receipt, string currency)
         {
-            string selectedGroup = Select.SelectGroup(currency);
-            Group group = AddItems(selectedGroup, receipt, currency);
-            string feeChoosen = Service.ChooseServiceFee(selectedGroup, groups, group, receipt, currency);
+            string selectedGroupName = Select.SelectGroup(currency);
+            Group group = AddItems(selectedGroupName, receipt, currency);
+            string feeChoosen = Service.ChooseServiceFee(selectedGroupName);
             AddServiceFee(group, feeChoosen, currency, receipt);
         }
 
@@ -14,14 +16,12 @@
         public static void AddGroups(Groups groups)
         {
             Console.Clear();
-            Console.Write("Add groups/people (separated with enter)");
-            Console.WriteLine(" -- Press 0 to exit");
+            Console.Write("Add groups/people (separated with enter)  -- Press 0 to exit\n");
 
             string newGroup;
             while (true)
             {
                 newGroup = Console.ReadLine()!;
-
                 if (newGroup == "0")
                 {
                     break;
@@ -30,30 +30,30 @@
                 {
                     Console.WriteLine("Empty name, try again:");
                 }
-                else if (Groups.groups.All(n => n.Name != newGroup))
+                else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
-                    groups.AddNewGroup(newGroup);
+                    Console.WriteLine($"{newGroup} already exists");
                 }
                 else
                 {
-                    Console.WriteLine($"{newGroup} already exists");
+                    groups.AddNewGroup(newGroup);
                 }
             }
         }
 
 
-        public static Group AddItems(string selectedGroup, Receipt receipt, string currency)
+        public static Group AddItems(string selectedGroupName, Receipt receipt, string currency)
         {
             Console.Clear();
             Console.WriteLine("--------------------------------");
-            Console.WriteLine($"Add item prices (separated with enter) to {selectedGroup} -- Press 0 to exit");
+            Console.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} -- Press 0 to exit");
 
             Group group = new("");
             double price = 0;
             while (true)
             {
                 bool success = double.TryParse(Console.ReadLine(), out price);
-                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroup)!;
+                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
 
                 if (success && price != 0)
                 {
@@ -85,23 +85,19 @@
                 switch (feeChoosen)
                 {
                     case "1":
-                        serviceFeePercent = (double)ServiceFee.zero;
-                        exit = true;
+                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.zero);
                         break;
 
                     case "2":
-                        serviceFeePercent = (double)ServiceFee.low;
-                        exit = true;
+                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.low);
                         break;
 
                     case "3":
-                        serviceFeePercent = (double)ServiceFee.medium;
-                        exit = true;
+                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.medium);
                         break;
 
                     case "4":
-                        serviceFeePercent = (double)ServiceFee.high;
-                        exit = true;
+                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.high);
                         break;
 
                     default:
@@ -110,38 +106,10 @@
                 }
             }
 
-            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent) / 100;
-            receipt.TotalWithFee += group.TotalWithFee;
-
-            ShowPricesDatas(group, currency, receipt);
-            CheckAllCalculated(currency);
+            Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
+            Show.ShowPricesDatas(group, currency, receipt);
+            Calculation.CheckAllCalculated(receipt, currency);
         }
 
-
-        private static void ShowPricesDatas(Group group, string currency, Receipt receipt)
-        {
-            Console.Clear();
-            Console.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
-            Console.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
-            Console.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
-            Console.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(currency)}");
-            Console.WriteLine("--------------------------------\n");
-        }
-
-
-        private static void CheckAllCalculated(string currency)
-        {
-            if (Groups.groups.All(g => g.Total > 0))
-            {
-                Console.WriteLine("All groups/person calculated!");
-                Console.WriteLine("Name: Total");
-                foreach (Group currGroup in Groups.groups)
-                {
-                    Console.WriteLine($"{currGroup.Name} - {currGroup.ToStringTotal(currency)} - {currGroup.ToStringTotalWithFee(currency)}");
-                }
-                Environment.Exit(0);
-            }
-
-        }
     }
 }

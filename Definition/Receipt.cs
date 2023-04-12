@@ -1,6 +1,6 @@
-﻿namespace Bill
+﻿namespace Bill.Definition
 {
-    enum ServiceFee : int
+    public enum ServiceFee : int
     {
         zero = 0,
         low = 8,
@@ -8,7 +8,7 @@
         high = 12
     }
 
-    enum Currency
+    public enum Currency
     {
         EUR,
         USD,
