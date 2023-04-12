@@ -1,6 +1,6 @@
 ﻿using Bill.Definition;
 
-namespace Bill
+namespace Bill.Backend
 {
     public class ErrorHandle
     {

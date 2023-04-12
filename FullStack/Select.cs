@@ -1,6 +1,7 @@
-﻿using Bill.Definition;
+﻿using Bill.Backend;
+using Bill.Definition;
 
-namespace Bill
+namespace Bill.FullStack
 {
     public class Select
     {
@@ -56,6 +57,7 @@ namespace Bill
         public static string SetCurrency(out bool exit, Currency enumCurrency)
         {
             exit = true;
+
             return enumCurrency.ToString();
         }
     }

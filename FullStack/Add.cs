@@ -1,6 +1,7 @@
-﻿using Bill.Definition;
+﻿using Bill.Backend;
+using Bill.Definition;
 
-namespace Bill
+namespace Bill.FullStack
 {
     public class Add
     {
@@ -85,19 +86,19 @@ namespace Bill
                 switch (feeChoosen)
                 {
                     case "1":
-                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.zero);
+                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.zero);
                         break;
 
                     case "2":
-                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.low);
+                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.low);
                         break;
 
                     case "3":
-                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.medium);
+                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.medium);
                         break;
 
                     case "4":
-                        Calculation.SetFeePercent(out serviceFeePercent, out exit, ServiceFee.high);
+                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.high);
                         break;
 
                     default:
@@ -110,6 +111,5 @@ namespace Bill
             Show.ShowPricesDatas(group, currency, receipt);
             Calculation.CheckAllCalculated(receipt, currency);
         }
-
     }
 }

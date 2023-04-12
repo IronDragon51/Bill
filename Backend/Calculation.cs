@@ -1,6 +1,7 @@
 ﻿using Bill.Definition;
+using Bill.FullStack;
 
-namespace Bill
+namespace Bill.Backend
 {
     public class Calculation
     {
@@ -18,15 +19,15 @@ namespace Bill
             }
         }
 
-        public static void SetFeePercent(out double serviceFeePercent, out bool exit, ServiceFee fee)
+        public static double SetFeePercent(out bool exit, ServiceFee fee)
         {
-            serviceFeePercent = (double)fee;
             exit = true;
+            return (double)fee;
         }
 
         public static void GetTotalsWithFee(Group group, Receipt receipt, double serviceFeePercent)
         {
-            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent) / 100;
+            group!.TotalWithFee = group.Total + group.Total * serviceFeePercent / 100;
             receipt.TotalWithFee += group.TotalWithFee;
         }
 

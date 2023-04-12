@@ -1,6 +1,6 @@
 ﻿using Bill.Definition;
 
-namespace Bill
+namespace Bill.FullStack
 {
     public class Service
     {
