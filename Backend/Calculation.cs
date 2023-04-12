@@ -9,6 +9,7 @@ namespace Bill.Backend
         {
             Console.WriteLine("Press any key to continue\n");
             Console.ReadKey();
+
             if (Groups.groups.All(g => g.Total > 0))
             {
                 Show.AllGroupsCalculated(currency);

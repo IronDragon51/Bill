@@ -37,7 +37,7 @@ namespace Bill.FullStack
                 }
                 else
                 {
-                    groups.AddNewGroup(newGroup);
+                    Groups.AddNewGroup(newGroup);
                 }
             }
         }
