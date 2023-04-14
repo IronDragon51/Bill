@@ -46,7 +46,9 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        Console.WriteLine("Wrong input, choose from 1,2,3 options");
+                        string wrongInput = "Wrong input, choose from 1,2,3 options";
+                        Console.WriteLine(wrongInput);
+                        choice = Console.ReadLine()!;
                         break;
                 }
             }

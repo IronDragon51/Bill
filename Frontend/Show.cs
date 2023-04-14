@@ -7,7 +7,14 @@ namespace Bill
     {
         public static void ShowPricesDatas(Group group, string currency, Receipt receipt)
         {
-            Console.Clear();
+            if (Console.IsOutputRedirected)
+            {
+                return;
+            }
+            if (!Console.IsOutputRedirected)
+            {
+                Console.Clear();
+            }
             Console.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
             Console.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
             Console.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
@@ -17,7 +24,10 @@ namespace Bill
 
         public static void ShowCurrencies()
         {
-            Console.Clear();
+            if (!Console.IsOutputRedirected)
+            {
+                Console.Clear();
+            }
             Console.WriteLine("--------------------------------");
             Console.WriteLine("Select a currency!\n");
             Console.WriteLine("Options:");
@@ -28,7 +38,10 @@ namespace Bill
 
         public static void ShowSelectableGroups()
         {
-            Console.Clear();
+            if (!Console.IsOutputRedirected)
+            {
+                Console.Clear();
+            }
             Console.WriteLine("--------------------------------");
             Console.WriteLine("Select a group/person to add prices to!\n");
             Console.WriteLine("Options:");
@@ -55,15 +68,25 @@ namespace Bill
             }
         }
 
-        public static void AllGroupsCalculated(string currency)
+        public virtual void AllGroupsCalculated(string currency)
         {
-            Console.WriteLine("All groups/person calculated!");
-            Console.WriteLine("Name: Total");
+            Console.WriteLine("\n--------------------------------");
+            Console.WriteLine("All groups/person calculated!\n");
+            Console.WriteLine("Name \t Total \t Total with fee");
             foreach (Group currGroup in Groups.groups)
             {
-                Console.WriteLine($"{currGroup.Name} - {currGroup.ToStringTotal(currency)} - {currGroup.ToStringTotalWithFee(currency)}");
+                Console.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(currency)} \t {currGroup.ToStringTotalWithFee(currency)}");
             }
             Environment.Exit(0);
+        }
+
+        public static void Continue()
+        {
+            Console.WriteLine("Press any key to continue\n");
+            //if (!Console.IsOutputRedirected)
+            //{
+            Console.ReadKey();
+            //}
         }
     }
 }

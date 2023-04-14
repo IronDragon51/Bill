@@ -5,7 +5,7 @@ namespace Bill
 {
     public class Program
     {
-        static void Main()
+        public static void Main(string[] args)
         {
             Groups groups = new();
             Receipt receipt = new();

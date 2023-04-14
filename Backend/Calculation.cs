@@ -5,18 +5,19 @@ namespace Bill.Backend
 {
     public class Calculation
     {
-        public static void CheckAllCalculated(Receipt receipt, string currency)
+        public bool CheckAllCalculated(Receipt receipt, string currency)
         {
-            Console.WriteLine("Press any key to continue\n");
-            Console.ReadKey();
-
+            Show.Continue();
             if (Groups.groups.All(g => g.Total > 0))
             {
-                Show.AllGroupsCalculated(currency);
+                Show show = new();
+                show.AllGroupsCalculated(currency);
+                return true;
             }
             else
             {
                 Add.AddLoop(receipt, currency);
+                return false;
             }
         }
 
@@ -28,9 +29,8 @@ namespace Bill.Backend
 
         public static void GetTotalsWithFee(Group group, Receipt receipt, double serviceFeePercent)
         {
-            group!.TotalWithFee = group.Total + group.Total * serviceFeePercent / 100;
+            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent) / 100;
             receipt.TotalWithFee += group.TotalWithFee;
         }
-
     }
 }

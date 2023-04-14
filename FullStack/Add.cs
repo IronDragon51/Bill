@@ -16,7 +16,10 @@ namespace Bill.FullStack
 
         public static void AddGroups(Groups groups)
         {
-            Console.Clear();
+            if (!Console.IsOutputRedirected)
+            {
+                Console.Clear();
+            }
             Console.Write("Add groups/people (separated with enter)  -- Press 0 to exit\n");
 
             string newGroup;
@@ -37,7 +40,7 @@ namespace Bill.FullStack
                 }
                 else
                 {
-                    Groups.AddNewGroup(newGroup);
+                    groups.AddNewGroup(newGroup);
                 }
             }
         }
@@ -45,7 +48,10 @@ namespace Bill.FullStack
 
         public static Group AddItems(string selectedGroupName, Receipt receipt, string currency)
         {
-            Console.Clear();
+            if (!Console.IsOutputRedirected)
+            {
+                Console.Clear();
+            }
             Console.WriteLine("--------------------------------");
             Console.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} -- Press 0 to exit");
 
@@ -103,13 +109,20 @@ namespace Bill.FullStack
 
                     default:
                         Console.WriteLine("Wrong input, choose from 1,2,3,4 options");
+                        //if (Console.IsOutputRedirected)
+                        //{
+                        //    exit = true;
+                        //    break;
+                        //}
+                        feeChoosen = Console.ReadLine()!;
                         break;
                 }
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
             Show.ShowPricesDatas(group, currency, receipt);
-            Calculation.CheckAllCalculated(receipt, currency);
+            Calculation calculation = new();
+            calculation.CheckAllCalculated(receipt, currency);
         }
     }
 }
