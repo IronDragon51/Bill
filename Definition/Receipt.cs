@@ -1,6 +1,6 @@
 ﻿namespace Bill.Definition
 {
-    public enum ServiceFee : int
+    public enum ServiceFee
     {
         zero = 0,
         low = 8,

@@ -107,6 +107,7 @@ namespace Bill.FullStack
                         serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.high);
                         break;
 
+
                     default:
                         Console.WriteLine("Wrong input, choose from 1,2,3,4 options");
                         //if (Console.IsOutputRedirected)

@@ -1,20 +1,19 @@
 ﻿using Bill.Definition;
 using Bill.FullStack;
+using Bill.Interfaces;
 
 namespace Bill
 {
-    public class Show
+    public class Show : INewPageWrite, IWriteCalculate
     {
+        void INewPageWrite.WriteOutput()
+        {
+
+        }
+
         public static void ShowPricesDatas(Group group, string currency, Receipt receipt)
         {
-            if (Console.IsOutputRedirected)
-            {
-                return;
-            }
-            if (!Console.IsOutputRedirected)
-            {
-                Console.Clear();
-            }
+            Console.Clear();
             Console.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
             Console.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
             Console.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
@@ -24,10 +23,8 @@ namespace Bill
 
         public static void ShowCurrencies()
         {
-            if (!Console.IsOutputRedirected)
-            {
-                Console.Clear();
-            }
+
+            Console.Clear();
             Console.WriteLine("--------------------------------");
             Console.WriteLine("Select a currency!\n");
             Console.WriteLine("Options:");
@@ -38,10 +35,7 @@ namespace Bill
 
         public static void ShowSelectableGroups()
         {
-            if (!Console.IsOutputRedirected)
-            {
-                Console.Clear();
-            }
+            Console.Clear();
             Console.WriteLine("--------------------------------");
             Console.WriteLine("Select a group/person to add prices to!\n");
             Console.WriteLine("Options:");
@@ -83,10 +77,7 @@ namespace Bill
         public static void Continue()
         {
             Console.WriteLine("Press any key to continue\n");
-            //if (!Console.IsOutputRedirected)
-            //{
             Console.ReadKey();
-            //}
         }
     }
 }
