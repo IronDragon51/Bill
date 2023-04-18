@@ -1,7 +1,13 @@
-﻿namespace Bill.Interfaces
+﻿using Bill.Definition;
+
+namespace Bill.Interfaces
 {
-    public interface IWriteCalculate
+    public interface ISelectShow
     {
-        public void Write(string currency);
+        void ShowPricesDatas(Group group, string currency, Receipt receipt);
+
+        void ShowCurrencies();
+
+        void ShowSelectableGroups();
     }
 }

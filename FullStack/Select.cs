@@ -1,15 +1,18 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
+using Bill.Interfaces;
 
 namespace Bill.FullStack
 {
-    public class Select
+    public class Select //: SelectBase
     {
+        readonly static ISelectShow show = new ConsoleImplementationSelectShow();
+
         public static string SelectGroup(string currency)
         {
-            Show.ShowSelectableGroups();
+            show.ShowSelectableGroups();
 
-            Group group = new("")!;
+            Group group = new("");
             string selectedGroup = Console.ReadLine()!;
             group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
@@ -24,7 +27,7 @@ namespace Bill.FullStack
 
         public static string SelectCurrency()
         {
-            Show.ShowCurrencies();
+            show.ShowCurrencies();
 
             string currency = "";
             string choice = Console.ReadLine()!;
