@@ -1,16 +1,17 @@
 ﻿using Bill.Definition;
 using Bill.FullStack;
+using Bill.Interfaces;
 
 namespace Bill.Backend
 {
-    public class Calculation
+    public class Calculation : ConsoleImplementationShow
     {
+        readonly IShow show = new ConsoleImplementationShow();
         public bool CheckAllCalculated(Receipt receipt, string currency)
         {
-            Show.Continue();
+            show.Continue();
             if (Groups.groups.All(g => g.Total > 0))
             {
-                Show show = new();
                 show.AllGroupsCalculated(currency);
                 return true;
             }

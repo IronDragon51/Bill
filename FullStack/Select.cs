@@ -4,9 +4,9 @@ using Bill.Interfaces;
 
 namespace Bill.FullStack
 {
-    public class Select //: SelectBase
+    public static class Select
     {
-        readonly static ISelectShow show = new ConsoleImplementationSelectShow();
+        readonly static IShow show = new ConsoleImplementationShow();
 
         public static string SelectGroup(string currency)
         {
@@ -18,7 +18,7 @@ namespace Bill.FullStack
 
             if (group.Total > 0)
             {
-                Show.AlreadyCalculated(currency);
+                show.AlreadyCalculated(currency);
             }
 
             return selectedGroup;

@@ -1,10 +1,13 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
+using Bill.Interfaces;
 
 namespace Bill.FullStack
 {
-    public class Add
+    public static class Add
     {
+        readonly static IShow show = new ConsoleImplementationShow();
+
         public static void AddLoop(Receipt receipt, string currency)
         {
             string selectedGroupName = Select.SelectGroup(currency);
@@ -16,16 +19,14 @@ namespace Bill.FullStack
 
         public static void AddGroups(Groups groups)
         {
-            if (!Console.IsOutputRedirected)
-            {
-                Console.Clear();
-            }
+            Console.Clear();
             Console.Write("Add groups/people (separated with enter)  -- Press 0 to exit\n");
 
             string newGroup;
             while (true)
             {
                 newGroup = Console.ReadLine()!;
+                bool isNumeric = int.TryParse(newGroup, out _);
                 if (newGroup == "0")
                 {
                     break;
@@ -33,6 +34,10 @@ namespace Bill.FullStack
                 else if (string.IsNullOrEmpty(newGroup))
                 {
                     Console.WriteLine("Empty name, try again:");
+                }
+                else if (!isNumeric)
+                {
+                    Console.WriteLine("Number name? Interesting. Try again!");
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
@@ -121,7 +126,7 @@ namespace Bill.FullStack
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            Show.ShowPricesDatas(group, currency, receipt);
+            show.ShowPricesDatas(group, currency, receipt);
             Calculation calculation = new();
             calculation.CheckAllCalculated(receipt, currency);
         }

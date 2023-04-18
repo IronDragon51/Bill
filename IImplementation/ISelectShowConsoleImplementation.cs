@@ -1,8 +1,9 @@
 ﻿using Bill.Definition;
+using Bill.FullStack;
 
 namespace Bill.Interfaces
 {
-    public class ConsoleImplementationSelectShow : ISelectShow
+    public class ConsoleImplementationShow : IShow
     {
         public void ShowPricesDatas(Group group, string currency, Receipt receipt)
         {
@@ -40,5 +41,39 @@ namespace Bill.Interfaces
             }
             Console.WriteLine();
         }
+
+        public void AlreadyCalculated(string currency)
+        {
+            Console.WriteLine("Already calculated!");
+            Console.WriteLine("Calculate anyway? (y/n)");
+            string input = Console.ReadLine()!;
+            if (input == "n")
+            {
+                Select.SelectGroup(currency);
+            }
+            else if (input != "y")
+            {
+                Console.WriteLine("Wrong input! Type 'y' or 'n'");
+            }
+        }
+
+        public void Continue()
+        {
+            Console.WriteLine("Press any key to continue\n");
+            Console.ReadKey();
+        }
+
+        public virtual void AllGroupsCalculated(string currency)
+        {
+            Console.WriteLine("\n--------------------------------");
+            Console.WriteLine("All groups/person calculated!\n");
+            Console.WriteLine("Name \t Total \t Total with fee");
+            foreach (Group currGroup in Groups.groups)
+            {
+                Console.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(currency)} \t {currGroup.ToStringTotalWithFee(currency)}");
+            }
+            Environment.Exit(0);
+        }
+
     }
 }
