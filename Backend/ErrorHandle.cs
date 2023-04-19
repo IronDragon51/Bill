@@ -6,11 +6,12 @@ namespace Bill.Backend
     public class ErrorHandle
     {
         private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
-        public static Group CheckGroupExistence(Group group, string selectedGroup)
+
+        public static Group CheckGroupExistence(Group group, int selectedGroup)
         {
             try
             {
-                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroup)!;
+                group = Groups.groups.FirstOrDefault(g => g.Name == Groups.groups[selectedGroup].Name)!;
 
                 if (string.IsNullOrEmpty(group.Name))
                 {

@@ -39,6 +39,7 @@ namespace Bill.Interfaces
                 num++;
                 Console.WriteLine($"{num}) {currentGroup.Name}");
             }
+
             Console.WriteLine();
         }
 
