@@ -1,19 +1,16 @@
 ﻿using Bill.Definition;
+using Bill.Interfaces;
 
 namespace Bill.FullStack
 {
     public class Service
     {
+        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
+
         public static string ChooseServiceFee(string selectedGroupName)
         {
-            Console.Clear();
-            Console.WriteLine("--------------------------------");
             Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
-            Console.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total})");
-            Console.WriteLine($"1) {(int)ServiceFee.zero}% fee");
-            Console.WriteLine($"2) {(int)ServiceFee.low}% fee");
-            Console.WriteLine($"3) {(int)ServiceFee.medium}% fee");
-            Console.WriteLine($"4) {(int)ServiceFee.high}% fee");
+            shortMsgShow.ChooseServiceFee_Message(selectedGroup);
 
             string feeChoosen = Console.ReadLine()!;
             Group group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;

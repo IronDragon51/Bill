@@ -6,11 +6,12 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        private static readonly ISelectMsgShow show = new ConsoleImplementationSelectShow();
+        private static readonly ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
+        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
 
         public static string SelectGroup(string currency)
         {
-            show.ShowSelectableGroups();
+            selectMsgShow.ShowSelectableGroups();
 
             Group group = new("");
             string selectedGroup = Console.ReadLine()!;
@@ -18,7 +19,7 @@ namespace Bill.FullStack
 
             if (group.Total > 0)
             {
-                show.AlreadyCalculatedMessage(currency);
+                selectMsgShow.AlreadyCalculatedMessage(currency);
             }
 
             return selectedGroup;
@@ -27,7 +28,7 @@ namespace Bill.FullStack
 
         public static string SelectCurrency()
         {
-            show.ShowCurrencies();
+            selectMsgShow.ShowCurrencies();
 
             string currency = "";
             string choice = Console.ReadLine()!;
@@ -50,8 +51,7 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        string wrongInput = "Wrong input, choose from 1,2,3 options";
-                        Console.WriteLine(wrongInput);
+                        shortMsgShow.ChooseAgain3_WrongInputMessage();
                         choice = Console.ReadLine()!;
                         break;
                 }

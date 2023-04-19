@@ -19,7 +19,7 @@ namespace Bill.FullStack
 
         public static void AddGroups(Groups groups)
         {
-            shortMsgShow.AddGroupsMessage();
+            shortMsgShow.AddGroups_Message();
 
             while (true)
             {
@@ -31,15 +31,15 @@ namespace Bill.FullStack
                 }
                 else if (string.IsNullOrEmpty(newGroup))
                 {
-                    shortMsgShow.EmptyNameWrongInputMessage();
+                    shortMsgShow.EmptyName_WrongInputMessage();
                 }
                 else if (int.TryParse(newGroup, out _))
                 {
-                    shortMsgShow.NumberWrongInputMessage();
+                    shortMsgShow.Number_WrongInputMessage();
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
-                    shortMsgShow.GroupExistsWrongInputMessage(newGroup);
+                    shortMsgShow.GroupExists_WrongInputMessage(newGroup);
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace Bill.FullStack
 
         public static Group AddItems(string selectedGroupName, Receipt receipt, string currency)
         {
-            shortMsgShow.AddItemPricesMessage(selectedGroupName);
+            shortMsgShow.AddItemPrices_Message(selectedGroupName);
             Group group = new("");
             double price = 0;
 
@@ -64,16 +64,16 @@ namespace Bill.FullStack
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    shortMsgShow.AddedPriceInfoMessage(currency, group, price);
+                    shortMsgShow.AddedPrice_InfoMessage(currency, group, price);
                 }
                 else if (success && price == 0)
                 {
-                    Console.WriteLine($"Total price to pay: {group.ToStringTotal(currency)}");
+                    shortMsgShow.TotalPay_InfoMessage(currency, group);
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Wrong input, noting was added");
+                    shortMsgShow.NothingAdded_WrongInputMessage();
                 }
             }
 
@@ -106,9 +106,8 @@ namespace Bill.FullStack
                         serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.high);
                         break;
 
-
                     default:
-                        Console.WriteLine("Wrong input, choose from 1,2,3,4 options");
+                        shortMsgShow.ChooseAgain4_WrongInputMessage();
                         feeChoosen = Console.ReadLine()!;
                         break;
                 }
@@ -116,8 +115,7 @@ namespace Bill.FullStack
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
             selectMsgShow.ShowPricesDatas(group, currency, receipt);
-            Calculation calculation = new();
-            calculation.CheckAllCalculated(receipt, currency);
+            Calculation.CheckAllCalculated(receipt, currency);
         }
     }
 }

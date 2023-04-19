@@ -1,9 +1,11 @@
 ﻿using Bill.Definition;
+using Bill.Interfaces;
 
 namespace Bill.Backend
 {
     public class ErrorHandle
     {
+        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
         public static Group CheckGroupExistence(Group group, string selectedGroup)
         {
             try
@@ -17,7 +19,7 @@ namespace Bill.Backend
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                shortMsgShow.NoGroup_ExceptionInfoMessage(e);
             }
 
             return group;

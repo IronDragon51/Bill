@@ -75,6 +75,5 @@ namespace Bill.Interfaces
             }
             Environment.Exit(0);
         }
-
     }
 }
