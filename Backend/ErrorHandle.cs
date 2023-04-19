@@ -9,6 +9,7 @@ namespace Bill.Backend
             try
             {
                 group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroup)!;
+
                 if (string.IsNullOrEmpty(group.Name))
                 {
                     throw new Exception("No group like this!");

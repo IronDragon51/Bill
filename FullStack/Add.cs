@@ -6,7 +6,8 @@ namespace Bill.FullStack
 {
     public static class Add
     {
-        readonly static IShow show = new ConsoleImplementationShow();
+        readonly static ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
+        readonly static IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
 
         public static void AddLoop(Receipt receipt, string currency)
         {
@@ -16,32 +17,29 @@ namespace Bill.FullStack
             AddServiceFee(group, feeChoosen, currency, receipt);
         }
 
-
         public static void AddGroups(Groups groups)
         {
-            Console.Clear();
-            Console.Write("Add groups/people (separated with enter)  -- Press 0 to exit\n");
+            shortMsgShow.AddGroupsMessage();
 
-            string newGroup;
             while (true)
             {
-                newGroup = Console.ReadLine()!;
-                bool isNumeric = int.TryParse(newGroup, out _);
+                string newGroup = Console.ReadLine()!;
+
                 if (newGroup == "0")
                 {
                     break;
                 }
                 else if (string.IsNullOrEmpty(newGroup))
                 {
-                    Console.WriteLine("Empty name, try again:");
+                    shortMsgShow.EmptyNameWrongInputMessage();
                 }
-                else if (!isNumeric)
+                else if (int.TryParse(newGroup, out _))
                 {
-                    Console.WriteLine("Number name? Interesting. Try again!");
+                    shortMsgShow.NumberWrongInputMessage();
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
-                    Console.WriteLine($"{newGroup} already exists");
+                    shortMsgShow.GroupExistsWrongInputMessage(newGroup);
                 }
                 else
                 {
@@ -53,15 +51,10 @@ namespace Bill.FullStack
 
         public static Group AddItems(string selectedGroupName, Receipt receipt, string currency)
         {
-            if (!Console.IsOutputRedirected)
-            {
-                Console.Clear();
-            }
-            Console.WriteLine("--------------------------------");
-            Console.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} -- Press 0 to exit");
-
+            shortMsgShow.AddItemPricesMessage(selectedGroupName);
             Group group = new("");
             double price = 0;
+
             while (true)
             {
                 bool success = double.TryParse(Console.ReadLine(), out price);
@@ -71,7 +64,7 @@ namespace Bill.FullStack
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    Console.WriteLine($"Added {price} {currency}. Current total: {group.ToStringTotal(currency)}");
+                    shortMsgShow.AddedPriceInfoMessage(currency, group, price);
                 }
                 else if (success && price == 0)
                 {
@@ -92,6 +85,7 @@ namespace Bill.FullStack
         {
             double serviceFeePercent = 0;
             bool exit = false;
+
             while (!exit)
             {
                 switch (feeChoosen)
@@ -115,18 +109,13 @@ namespace Bill.FullStack
 
                     default:
                         Console.WriteLine("Wrong input, choose from 1,2,3,4 options");
-                        //if (Console.IsOutputRedirected)
-                        //{
-                        //    exit = true;
-                        //    break;
-                        //}
                         feeChoosen = Console.ReadLine()!;
                         break;
                 }
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            show.ShowPricesDatas(group, currency, receipt);
+            selectMsgShow.ShowPricesDatas(group, currency, receipt);
             Calculation calculation = new();
             calculation.CheckAllCalculated(receipt, currency);
         }

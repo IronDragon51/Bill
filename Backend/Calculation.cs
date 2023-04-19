@@ -4,15 +4,16 @@ using Bill.Interfaces;
 
 namespace Bill.Backend
 {
-    public class Calculation : ConsoleImplementationShow
+    public class Calculation
     {
-        readonly IShow show = new ConsoleImplementationShow();
+        readonly ISelectMsgShow show = new ConsoleImplementationSelectShow();
         public bool CheckAllCalculated(Receipt receipt, string currency)
         {
-            show.Continue();
+            show.ContinueMessage();
+
             if (Groups.groups.All(g => g.Total > 0))
             {
-                show.AllGroupsCalculated(currency);
+                show.AllGroupsCalculatedMessage(currency);
                 return true;
             }
             else

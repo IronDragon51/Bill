@@ -6,7 +6,7 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        readonly static IShow show = new ConsoleImplementationShow();
+        readonly static ISelectMsgShow show = new ConsoleImplementationSelectShow();
 
         public static string SelectGroup(string currency)
         {
@@ -18,7 +18,7 @@ namespace Bill.FullStack
 
             if (group.Total > 0)
             {
-                show.AlreadyCalculated(currency);
+                show.AlreadyCalculatedMessage(currency);
             }
 
             return selectedGroup;
@@ -32,6 +32,7 @@ namespace Bill.FullStack
             string currency = "";
             string choice = Console.ReadLine()!;
             bool exit = false;
+
             while (!exit)
             {
                 switch (choice)

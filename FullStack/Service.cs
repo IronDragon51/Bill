@@ -6,10 +6,7 @@ namespace Bill.FullStack
     {
         public static string ChooseServiceFee(string selectedGroupName)
         {
-            if (!Console.IsOutputRedirected)
-            {
-                Console.Clear();
-            }
+            Console.Clear();
             Console.WriteLine("--------------------------------");
             Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
             Console.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total})");

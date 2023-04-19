@@ -2,7 +2,7 @@
 
 namespace Bill.Interfaces
 {
-    public interface IShow
+    public interface ISelectMsgShow
     {
         void ShowPricesDatas(Group group, string currency, Receipt receipt);
 
@@ -10,10 +10,10 @@ namespace Bill.Interfaces
 
         void ShowSelectableGroups();
 
-        void AlreadyCalculated(string currency);
+        void AlreadyCalculatedMessage(string currency);
 
-        void Continue();
+        void ContinueMessage();
 
-        void AllGroupsCalculated(string currency);
+        void AllGroupsCalculatedMessage(string currency);
     }
 }

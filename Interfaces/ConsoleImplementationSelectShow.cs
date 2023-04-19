@@ -3,7 +3,7 @@ using Bill.FullStack;
 
 namespace Bill.Interfaces
 {
-    public class ConsoleImplementationShow : IShow
+    public class ConsoleImplementationSelectShow : ISelectMsgShow
     {
         public void ShowPricesDatas(Group group, string currency, Receipt receipt)
         {
@@ -42,11 +42,12 @@ namespace Bill.Interfaces
             Console.WriteLine();
         }
 
-        public void AlreadyCalculated(string currency)
+        public void AlreadyCalculatedMessage(string currency)
         {
             Console.WriteLine("Already calculated!");
             Console.WriteLine("Calculate anyway? (y/n)");
             string input = Console.ReadLine()!;
+
             if (input == "n")
             {
                 Select.SelectGroup(currency);
@@ -57,13 +58,13 @@ namespace Bill.Interfaces
             }
         }
 
-        public void Continue()
+        public void ContinueMessage()
         {
             Console.WriteLine("Press any key to continue\n");
             Console.ReadKey();
         }
 
-        public virtual void AllGroupsCalculated(string currency)
+        public virtual void AllGroupsCalculatedMessage(string currency)
         {
             Console.WriteLine("\n--------------------------------");
             Console.WriteLine("All groups/person calculated!\n");
