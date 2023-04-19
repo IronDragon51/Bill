@@ -11,9 +11,9 @@ namespace Bill.FullStack
 
         public static void AddLoop(Receipt receipt, string currency)
         {
-            string selectedGroupNumber = Select.SelectGroup(currency);
-            Group group = AddItems(selectedGroupNumber, receipt, currency);
-            string feeChoosen = Service.ChooseServiceFee(selectedGroupNumber);
+            string selectedGroup = Select.SelectGroup(currency);
+            Group group = AddItems(selectedGroup, receipt, currency);
+            string feeChoosen = Service.ChooseServiceFee(selectedGroup, currency);
             AddServiceFee(group, feeChoosen, currency, receipt);
         }
 
@@ -57,16 +57,16 @@ namespace Bill.FullStack
 
             while (true)
             {
-                //bool success = double.TryParse(Console.ReadLine(), out price);
+                bool success = double.TryParse(Console.ReadLine(), out price);
                 group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupNumber)!;
 
-                if (/*success &&*/ price != 0)
+                if (success && price != 0)
                 {
                     group!.Total += price;
                     receipt.Total += price;
                     shortMsgShow.AddedPrice_InfoMessage(currency, group, price);
                 }
-                else if (/*success &&*/ price == 0)
+                else if (success && price == 0)
                 {
                     shortMsgShow.TotalPay_InfoMessage(currency, group);
                     break;

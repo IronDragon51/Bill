@@ -7,11 +7,11 @@ namespace Bill.Backend
     {
         private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
 
-        public static Group CheckGroupExistence(Group group, int selectedGroup)
+        public static Group CheckGroupExistence(Group group, string selectedGroup)
         {
             try
             {
-                group = Groups.groups.FirstOrDefault(g => g.Name == Groups.groups[selectedGroup].Name)!;
+                group = Groups.groups.FirstOrDefault(g => g.Name == Groups.groups[Convert.ToInt32(selectedGroup) - 1].Name)!;
 
                 if (string.IsNullOrEmpty(group.Name))
                 {

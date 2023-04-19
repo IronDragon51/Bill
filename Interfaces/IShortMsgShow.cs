@@ -6,12 +6,12 @@ namespace Bill.Interfaces
     {
         void AddGroups_Message();
         void AddItemPrices_Message(string selectedGroupName);
-        void ChooseServiceFee_Message(Group selectedGroup);
+        void ChooseServiceFee_Message(Group selectedGroup, string currency);
 
         void AddedPrice_InfoMessage(string currency, Group group, double price);
         void TotalPay_InfoMessage(string currency, Group group);
 
-        void Number_WrongInputMessage(); //Number_?  ... _Number?
+        void Number_WrongInputMessage();
         void EmptyName_WrongInputMessage();
         void GroupExists_WrongInputMessage(string newGroup);
         void NothingAdded_WrongInputMessage();

@@ -9,11 +9,12 @@ namespace Bill.FullStack
         private static readonly ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
         private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
 
-        public static int SelectGroup(string currency)
+        public static string SelectGroup(string currency)
         {
             selectMsgShow.ShowSelectableGroups();
+
             Group group = new("");
-            bool isNumber = int.TryParse(Console.ReadLine(), out int selectedGroup);
+            string selectedGroup = Console.ReadLine()!;
             group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
             if (group.Total > 0)
@@ -21,7 +22,7 @@ namespace Bill.FullStack
                 selectMsgShow.AlreadyCalculatedMessage(currency);
             }
 
-            return selectedGroup;
+            return group.Name;
         }
 
 
