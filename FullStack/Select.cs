@@ -6,7 +6,7 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        readonly static ISelectMsgShow show = new ConsoleImplementationSelectShow();
+        private static readonly ISelectMsgShow show = new ConsoleImplementationSelectShow();
 
         public static string SelectGroup(string currency)
         {

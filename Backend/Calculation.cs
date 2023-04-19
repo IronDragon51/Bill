@@ -6,7 +6,7 @@ namespace Bill.Backend
 {
     public class Calculation
     {
-        readonly ISelectMsgShow show = new ConsoleImplementationSelectShow();
+        private readonly ISelectMsgShow show = new ConsoleImplementationSelectShow();
         public bool CheckAllCalculated(Receipt receipt, string currency)
         {
             show.ContinueMessage();
@@ -31,7 +31,7 @@ namespace Bill.Backend
 
         public static void GetTotalsWithFee(Group group, Receipt receipt, double serviceFeePercent)
         {
-            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent) / 100;
+            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent / 100);
             receipt.TotalWithFee += group.TotalWithFee;
         }
     }

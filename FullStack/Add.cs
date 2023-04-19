@@ -6,8 +6,8 @@ namespace Bill.FullStack
 {
     public static class Add
     {
-        readonly static ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
-        readonly static IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
+        private static readonly ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
+        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
 
         public static void AddLoop(Receipt receipt, string currency)
         {
