@@ -13,6 +13,8 @@ namespace Bill
             Add.AddGroups(groups);
             string currency = Select.SelectCurrency();
             Add.AddLoop(receipt, currency);
+
+            TextFiles.sw.Close();
         }
     }
 }

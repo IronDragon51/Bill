@@ -5,20 +5,31 @@ namespace Bill.Interfaces
 {
     public class ConsoleImplementationSelectShow : ISelectMsgShow
     {
+        private const string _divLineNBefore = "\n" + _divLine;
+        private const string _divLineNAfter = _divLine + "\n";
+        private const string _divLine = "--------------------------------";
+
         public void ShowPricesDatas(Group group, string currency, Receipt receipt)
         {
             Console.Clear();
-            Console.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
-            Console.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
-            Console.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
-            Console.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(currency)}");
-            Console.WriteLine("--------------------------------\n");
+            string line1 = $"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ";
+            string line2 = $"With service fee included: {group.ToStringTotalWithFee(currency)} \n";
+            string line3 = $"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ";
+            string line4 = $"With service fee included: {receipt.ToStringTotalWithFee(currency)}";
+
+            Console.WriteLine(line1);
+            Console.WriteLine(line2);
+            Console.WriteLine(line3);
+            Console.WriteLine(line4);
+            Console.WriteLine(_divLineNAfter);
+
+            //File.WriteAllLines(, );
         }
 
         public void ShowCurrencies()
         {
             Console.Clear();
-            Console.WriteLine("--------------------------------");
+            Console.WriteLine(_divLine);
             Console.WriteLine("Select a currency!\n");
             Console.WriteLine("Options:");
             Console.WriteLine($"1) {Currency.USD}");
@@ -29,7 +40,7 @@ namespace Bill.Interfaces
         public void ShowSelectableGroups()
         {
             Console.Clear();
-            Console.WriteLine("--------------------------------");
+            Console.WriteLine(_divLine);
             Console.WriteLine("Select a group/person to add prices to!\n");
             Console.WriteLine("Options:");
 
@@ -67,9 +78,9 @@ namespace Bill.Interfaces
 
         public virtual void AllGroupsCalculatedMessage(string currency)
         {
-            Console.WriteLine("\n--------------------------------");
+            Console.WriteLine(_divLineNBefore);
             Console.WriteLine("All groups/person calculated!\n");
-            Console.WriteLine("Name \t Total \t Total with fee");
+            Console.WriteLine("Name \t Total \t\t Total with fee");
             foreach (Group currGroup in Groups.groups)
             {
                 Console.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(currency)} \t {currGroup.ToStringTotalWithFee(currency)}");
