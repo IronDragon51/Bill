@@ -1,6 +1,7 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
 using Bill.Interfaces;
+using Bill.Ui;
 
 namespace Bill.FullStack
 {
@@ -31,11 +32,11 @@ namespace Bill.FullStack
                 }
                 else if (string.IsNullOrEmpty(newGroup))
                 {
-                    _message.ShowMessage(UiMessage.emptyNameWrongInputMessage);
+                    _message.ShowMessage(UiConst.emptyNameWrongInputMessage);
                 }
                 else if (int.TryParse(newGroup, out _))
                 {
-                    _message.ShowMessage(UiMessage.numberWrongInputMessage);
+                    _message.ShowMessage(UiConst.numberWrongInputMessage);
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
@@ -51,7 +52,7 @@ namespace Bill.FullStack
 
         public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
         {
-            _menu.ShowMenu(UiMessage.AddItemPricesMessage(selectedGroupNumber));
+            _menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupNumber));
             Group group = new("");
             double price = 0;
 
@@ -73,7 +74,7 @@ namespace Bill.FullStack
                 }
                 else
                 {
-                    _message.ShowMessage(UiMessage.nothingAddedWrongInputMessage);
+                    _message.ShowMessage(UiConst.nothingAddedWrongInputMessage);
                 }
             }
 
@@ -114,7 +115,7 @@ namespace Bill.FullStack
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            _menu.ShowMenu(UiMessage.ShowPricesDatas(group, currency, receipt));
+            _menu.ShowMenu(UiMenu.ShowPricesDatas(group, currency, receipt));
             Calculation.CheckAllCalculated(receipt, currency);
         }
     }

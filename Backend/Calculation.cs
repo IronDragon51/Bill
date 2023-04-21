@@ -1,6 +1,7 @@
 ﻿using Bill.Definition;
 using Bill.FullStack;
 using Bill.Interfaces;
+using Bill.Ui;
 
 namespace Bill.Backend
 {
@@ -15,7 +16,7 @@ namespace Bill.Backend
 
             if (Groups.groups.All(g => g.Total > 0))
             {
-                _menu.ShowMenu(UiMessage.AllGroupsCalculatedMessage(currency));
+                _menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(currency));
 
                 return true;
             }

@@ -1,6 +1,7 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
 using Bill.Interfaces;
+using Bill.Ui;
 
 namespace Bill.FullStack
 {
@@ -11,14 +12,14 @@ namespace Bill.FullStack
 
         public static string SelectGroup(string currency)
         {
-            _menu.ShowMenu(UiMessage.ShowSelectableGroups());
+            _menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group group = new("");
             string selectedGroup = Console.ReadLine()!;
             group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
             if (group.Total > 0)
             {
-                _menu.ShowMenu(UiMessage.AlreadyCalculatedMessage(currency));
+                _menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency));
             }
 
             return group.Name;
@@ -27,10 +28,10 @@ namespace Bill.FullStack
 
         public static string SelectCurrency()
         {
-            _menu.ShowMenu(UiMessage.ShowCurrencies());
+            _menu.ShowMenu(UiMenu.ShowCurrencies());
 
             string currency = "";
-            string choice = Console.ReadLine()!;
+            string? choice = Console.ReadLine();
             bool exit = false;
 
             while (!exit)
@@ -51,7 +52,7 @@ namespace Bill.FullStack
 
                     default:
                         _message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
-                        choice = Console.ReadLine()!;
+                        choice = Console.ReadLine();
                         break;
                 }
             }
