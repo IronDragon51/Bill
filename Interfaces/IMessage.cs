@@ -1,6 +1,6 @@
 ﻿namespace Bill.Interfaces
 {
-    public interface ISelectMsgShow
+    public interface IMessage
     {
         void ShowMessage(string message);
     }

@@ -6,15 +6,16 @@ namespace Bill.Backend
 {
     public static class Calculation
     {
-        private static readonly ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
+        private static readonly IMenu _menu = new ConsoleImplementationMenu();
+        private static readonly IMessage _message = new ConsoleImplementationMessage();
 
         public static bool CheckAllCalculated(Receipt receipt, string currency)
         {
-            selectMsgShow.ShowMessage(UiMessage.ContinueMessage());
+            _message.ShowMessage(UiMessage.ContinueMessage());
 
             if (Groups.groups.All(g => g.Total > 0))
             {
-                selectMsgShow.ShowMessage(UiMessage.AllGroupsCalculatedMessage(currency));
+                _menu.ShowMenu(UiMessage.AllGroupsCalculatedMessage(currency));
 
                 return true;
             }

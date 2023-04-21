@@ -5,12 +5,12 @@ namespace Bill.FullStack
 {
     public class Service
     {
-        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
+        private static readonly IMenu _menu = new ConsoleImplementationMenu();
 
         public static string ChooseServiceFee(string selectedGroupName, string currency)
         {
             Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
-            shortMsgShow.ShowMessage(UiMessage.ChooseServiceFeeMessage(selectedGroup, currency));
+            _menu.ShowMenu(UiMessage.ChooseServiceFeeMessage(selectedGroup, currency));
 
             string feeChoosen = Console.ReadLine()!;
             Group group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;

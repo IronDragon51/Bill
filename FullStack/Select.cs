@@ -6,19 +6,19 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        private static readonly ISelectMsgShow selectMsgShow = new ConsoleImplementationSelectShow();
-        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
+        private static readonly IMenu _menu = new ConsoleImplementationMenu();
+        private static readonly IMessage _message = new ConsoleImplementationMessage();
 
         public static string SelectGroup(string currency)
         {
-            selectMsgShow.ShowMessage(UiMessage.ShowSelectableGroups());
+            _menu.ShowMenu(UiMessage.ShowSelectableGroups());
             Group group = new("");
             string selectedGroup = Console.ReadLine()!;
             group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
             if (group.Total > 0)
             {
-                selectMsgShow.ShowMessage(UiMessage.AlreadyCalculatedMessage(currency));
+                _menu.ShowMenu(UiMessage.AlreadyCalculatedMessage(currency));
             }
 
             return group.Name;
@@ -27,7 +27,7 @@ namespace Bill.FullStack
 
         public static string SelectCurrency()
         {
-            selectMsgShow.ShowMessage(UiMessage.ShowCurrencies());
+            _menu.ShowMenu(UiMessage.ShowCurrencies());
 
             string currency = "";
             string choice = Console.ReadLine()!;
@@ -50,7 +50,7 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        shortMsgShow.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
+                        _message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
                         choice = Console.ReadLine()!;
                         break;
                 }

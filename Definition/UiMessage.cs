@@ -11,18 +11,12 @@ namespace Bill.Definition
         public const string emptyNameWrongInputMessage = "Empty name, try again:";
         public const string nothingAddedWrongInputMessage = "Wrong input, noting was added";
 
-        public static string GetGroupsMessage()
+        public static string AddGroupsMessage()
         {
-            /*
             StringWriter sw = new();
-            Console.SetOut(sw);
-            Console.Clear();
-            Console.SetError(sw);
-            Console.Write("Add groups/people (separated with enter)  -- Press 0 to exit\n");
+            sw.Write("Add groups/people (separated with enter)  -- Press 0 to exit\n");
 
             return sw.ToString();
-            */
-            return "Add groups/people (separated with enter)  -- Press 0 to exit\n";
         }
 
         public static string AddItemPricesMessage(string selectedGroupName)
@@ -87,11 +81,11 @@ namespace Bill.Definition
         public static string ShowPricesDatas(Group group, string currency, Receipt receipt)
         {
             StringWriter sw = new();
-            Console.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
-            Console.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
-            Console.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
-            Console.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(currency)}");
-            Console.WriteLine(_divLineNAfter);
+            sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
+            sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
+            sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
+            sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(currency)}");
+            sw.WriteLine(_divLineNAfter);
 
             return sw.ToString();
         }
@@ -99,12 +93,12 @@ namespace Bill.Definition
         public static string ShowCurrencies()
         {
             StringWriter sw = new();
-            Console.WriteLine(_divLine);
-            Console.WriteLine("Select a currency!\n");
-            Console.WriteLine("Options:");
-            Console.WriteLine($"1) {Currency.USD}");
-            Console.WriteLine($"2) {Currency.EUR}");
-            Console.WriteLine($"3) {Currency.HUF}");
+            sw.WriteLine(_divLine);
+            sw.WriteLine("Select a currency!\n");
+            sw.WriteLine("Options:");
+            sw.WriteLine($"1) {Currency.USD}");
+            sw.WriteLine($"2) {Currency.EUR}");
+            sw.WriteLine($"3) {Currency.HUF}");
 
             return sw.ToString();
         }
@@ -112,18 +106,18 @@ namespace Bill.Definition
         public static string ShowSelectableGroups()
         {
             StringWriter sw = new();
-            Console.WriteLine(_divLine);
-            Console.WriteLine("Select a group/person to add prices to!\n");
-            Console.WriteLine("Options:");
+            sw.WriteLine(_divLine);
+            sw.WriteLine("Select a group/person to add prices to!\n");
+            sw.WriteLine("Options:");
 
             int num = 0;
             foreach (Group currentGroup in Groups.groups)
             {
                 num++;
-                Console.WriteLine($"{num}) {currentGroup.Name}");
+                sw.WriteLine($"{num}) {currentGroup.Name}");
             }
 
-            Console.WriteLine();
+            sw.WriteLine();
 
             return sw.ToString();
         }
@@ -131,8 +125,8 @@ namespace Bill.Definition
         public static string AlreadyCalculatedMessage(string currency)
         {
             StringWriter sw = new();
-            Console.WriteLine("Already calculated!");
-            Console.WriteLine("Calculate anyway? (y/n)");
+            sw.WriteLine("Already calculated!");
+            sw.WriteLine("Calculate anyway? (y/n)");
             string input = Console.ReadLine()!;
 
             if (input == "n")
@@ -141,7 +135,7 @@ namespace Bill.Definition
             }
             else if (input != "y")
             {
-                Console.WriteLine("Wrong input! Type 'y' or 'n'");
+                sw.WriteLine("Wrong input! Type 'y' or 'n'");
             }
 
             return sw.ToString();
@@ -150,23 +144,21 @@ namespace Bill.Definition
         public static string ContinueMessage()
         {
             StringWriter sw = new();
-            Console.WriteLine("Press any key to continue\n");
-            Console.ReadKey();
-
+            sw.WriteLine("Press any key to continue\n");
             return sw.ToString();
         }
 
         public static string AllGroupsCalculatedMessage(string currency)
         {
             StringWriter sw = new();
-            Console.WriteLine(_divLineNBefore);
-            Console.WriteLine("All groups/person calculated!\n");
-            Console.WriteLine("Name \t Total \t\t Total with fee");
+            sw.WriteLine("All groups/person calculated!\n");
+            sw.WriteLine("Name \t Total \t\t Total with fee");
+
             foreach (Group currGroup in Groups.groups)
             {
-                Console.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(currency)} \t {currGroup.ToStringTotalWithFee(currency)}");
+                sw.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(currency)} \t\t {currGroup.ToStringTotalWithFee(currency)}");
             }
-            Environment.Exit(0);
+            //Environment.Exit(0);
 
             return sw.ToString();
         }

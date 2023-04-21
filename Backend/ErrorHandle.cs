@@ -5,7 +5,7 @@ namespace Bill.Backend
 {
     public class ErrorHandle
     {
-        private static readonly IShortMsgShow shortMsgShow = new ConsoleImplementationAddShow();
+        private static readonly IMessage shortMsgShow = new ConsoleImplementationMessage();
 
         public static Group CheckGroupExistence(Group group, string selectedGroup)
         {
