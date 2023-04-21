@@ -19,104 +19,105 @@ namespace Bill.FullStack
 
         public static void AddGroups(Groups groups)
         {
-            string agm = UiMessage.AddGroupsMessage();
-            shortMsgShow.ShowMessage(agm);
-
-            while (true)
+            shortMsgShow.ShowMessage(UiMessage.GetGroupsMessage());
             {
-                string newGroup = Console.ReadLine()!;
+                //shortMsgShow.ShowMessage("Add groups/people (separated with enter)  -- Press 0 to exit\n");
 
-                if (newGroup == "0")
+                while (true)
                 {
-                    break;
-                }
-                else if (string.IsNullOrEmpty(newGroup))
-                {
-                    shortMsgShow.ShowMessage(UiMessage.emptyNameWrongInputMessage);
-                }
-                else if (int.TryParse(newGroup, out _))
-                {
-                    shortMsgShow.ShowMessage(UiMessage.numberWrongInputMessage);
-                }
-                else if (Groups.groups.Any(n => n.Name == newGroup))
-                {
-                    shortMsgShow.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
-                }
-                else
-                {
-                    groups.AddNewGroup(newGroup);
-                }
-            }
-        }
+                    string newGroup = Console.ReadLine()!;
 
-
-        public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
-        {
-            shortMsgShow.ShowMessage(UiMessage.AddItemPricesMessage(selectedGroupNumber));
-            Group group = new("");
-            double price = 0;
-
-            while (true)
-            {
-                bool success = double.TryParse(Console.ReadLine(), out price);
-                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupNumber)!;
-
-                if (success && price != 0)
-                {
-                    group!.Total += price;
-                    receipt.Total += price;
-                    shortMsgShow.ShowMessage(UiMessage.AddedPriceInfoMessage(currency, group, price));
-                }
-                else if (success && price == 0)
-                {
-                    shortMsgShow.ShowMessage(UiMessage.TotalPayInfoMessage(currency, group));
-                    break;
-                }
-                else
-                {
-                    shortMsgShow.ShowMessage(UiMessage.nothingAddedWrongInputMessage);
+                    if (newGroup == "0")
+                    {
+                        break;
+                    }
+                    else if (string.IsNullOrEmpty(newGroup))
+                    {
+                        shortMsgShow.ShowMessage(UiMessage.emptyNameWrongInputMessage);
+                    }
+                    else if (int.TryParse(newGroup, out _))
+                    {
+                        shortMsgShow.ShowMessage(UiMessage.numberWrongInputMessage);
+                    }
+                    else if (Groups.groups.Any(n => n.Name == newGroup))
+                    {
+                        shortMsgShow.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
+                    }
+                    else
+                    {
+                        groups.AddNewGroup(newGroup);
+                    }
                 }
             }
 
-            return group;
-        }
 
-
-        public static void AddServiceFee(Group group, string feeChoosen, string currency, Receipt receipt)
-        {
-            double serviceFeePercent = 0;
-            bool exit = false;
-
-            while (!exit)
+            public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
             {
-                switch (feeChoosen)
+                shortMsgShow.ShowMessage(UiMessage.AddItemPricesMessage(selectedGroupNumber));
+                Group group = new("");
+                double price = 0;
+
+                while (true)
                 {
-                    case "1":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.zero);
-                        break;
+                    bool success = double.TryParse(Console.ReadLine(), out price);
+                    group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupNumber)!;
 
-                    case "2":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.low);
+                    if (success && price != 0)
+                    {
+                        group!.Total += price;
+                        receipt.Total += price;
+                        shortMsgShow.ShowMessage(UiMessage.AddedPriceInfoMessage(currency, group, price));
+                    }
+                    else if (success && price == 0)
+                    {
+                        shortMsgShow.ShowMessage(UiMessage.TotalPayInfoMessage(currency, group));
                         break;
-
-                    case "3":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.medium);
-                        break;
-
-                    case "4":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.high);
-                        break;
-
-                    default:
-                        shortMsgShow.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
-                        feeChoosen = Console.ReadLine()!;
-                        break;
+                    }
+                    else
+                    {
+                        shortMsgShow.ShowMessage(UiMessage.nothingAddedWrongInputMessage);
+                    }
                 }
+
+                return group;
             }
 
-            Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            selectMsgShow.ShowMessage(UiMessage.ShowPricesDatas(group, currency, receipt));
-            Calculation.CheckAllCalculated(receipt, currency);
+
+            public static void AddServiceFee(Group group, string feeChoosen, string currency, Receipt receipt)
+            {
+                double serviceFeePercent = 0;
+                bool exit = false;
+
+                while (!exit)
+                {
+                    switch (feeChoosen)
+                    {
+                        case "1":
+                            serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.zero);
+                            break;
+
+                        case "2":
+                            serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.low);
+                            break;
+
+                        case "3":
+                            serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.medium);
+                            break;
+
+                        case "4":
+                            serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.high);
+                            break;
+
+                        default:
+                            shortMsgShow.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
+                            feeChoosen = Console.ReadLine()!;
+                            break;
+                    }
+                }
+
+                Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
+                selectMsgShow.ShowMessage(UiMessage.ShowPricesDatas(group, currency, receipt));
+                Calculation.CheckAllCalculated(receipt, currency);
+            }
         }
     }
-}
