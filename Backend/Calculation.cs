@@ -10,16 +10,18 @@ namespace Bill.Backend
 
         public static bool CheckAllCalculated(Receipt receipt, string currency)
         {
-            selectMsgShow.ContinueMessage();
+            selectMsgShow.ShowMessage(UiMessage.ContinueMessage());
 
             if (Groups.groups.All(g => g.Total > 0))
             {
-                selectMsgShow.AllGroupsCalculatedMessage(currency);
+                selectMsgShow.ShowMessage(UiMessage.AllGroupsCalculatedMessage(currency));
+
                 return true;
             }
             else
             {
                 Add.AddLoop(receipt, currency);
+
                 return false;
             }
         }

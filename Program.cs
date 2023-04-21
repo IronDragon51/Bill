@@ -5,7 +5,7 @@ namespace Bill
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Groups groups = new();
             Receipt receipt = new();
@@ -14,7 +14,6 @@ namespace Bill
             string currency = Select.SelectCurrency();
             Add.AddLoop(receipt, currency);
 
-            TextFiles.sw.Close();
         }
     }
 }

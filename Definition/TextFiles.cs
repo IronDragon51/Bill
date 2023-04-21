@@ -1,10 +1,8 @@
-﻿using System.Text;
-
-namespace Bill.Definition
+﻿namespace Bill.Definition
 {
     public static class TextFiles
     {
-        public static StreamWriter sw = new("C:\\VS\\BillTests\\Outputs\\output.txt", true, Encoding.UTF8);
-
+        //public static StreamWriter sw = new("C:\\VS\\BillTests\\Outputs\\output.txt", true, Encoding.UTF8);
+        //File.WriteAllLines(, );
     }
 }

@@ -11,15 +11,14 @@ namespace Bill.FullStack
 
         public static string SelectGroup(string currency)
         {
-            selectMsgShow.ShowSelectableGroups();
-
+            selectMsgShow.ShowMessage(UiMessage.ShowSelectableGroups());
             Group group = new("");
             string selectedGroup = Console.ReadLine()!;
             group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
             if (group.Total > 0)
             {
-                selectMsgShow.AlreadyCalculatedMessage(currency);
+                selectMsgShow.ShowMessage(UiMessage.AlreadyCalculatedMessage(currency));
             }
 
             return group.Name;
@@ -28,7 +27,7 @@ namespace Bill.FullStack
 
         public static string SelectCurrency()
         {
-            selectMsgShow.ShowCurrencies();
+            selectMsgShow.ShowMessage(UiMessage.ShowCurrencies());
 
             string currency = "";
             string choice = Console.ReadLine()!;
@@ -51,7 +50,7 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        shortMsgShow.ChooseAgain3_WrongInputMessage();
+                        shortMsgShow.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
                         choice = Console.ReadLine()!;
                         break;
                 }

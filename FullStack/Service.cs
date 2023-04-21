@@ -10,7 +10,7 @@ namespace Bill.FullStack
         public static string ChooseServiceFee(string selectedGroupName, string currency)
         {
             Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
-            shortMsgShow.ChooseServiceFee_Message(selectedGroup, currency);
+            shortMsgShow.ShowMessage(UiMessage.ChooseServiceFeeMessage(selectedGroup, currency));
 
             string feeChoosen = Console.ReadLine()!;
             Group group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;

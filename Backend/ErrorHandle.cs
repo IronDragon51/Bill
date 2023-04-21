@@ -20,7 +20,7 @@ namespace Bill.Backend
             }
             catch (Exception e)
             {
-                shortMsgShow.NoGroup_ExceptionInfoMessage(e);
+                shortMsgShow.ShowMessage(e.Message);
             }
 
             return group;

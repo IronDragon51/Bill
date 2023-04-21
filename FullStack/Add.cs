@@ -19,7 +19,8 @@ namespace Bill.FullStack
 
         public static void AddGroups(Groups groups)
         {
-            shortMsgShow.AddGroups_Message();
+            string agm = UiMessage.AddGroupsMessage();
+            shortMsgShow.ShowMessage(agm);
 
             while (true)
             {
@@ -31,15 +32,15 @@ namespace Bill.FullStack
                 }
                 else if (string.IsNullOrEmpty(newGroup))
                 {
-                    shortMsgShow.EmptyName_WrongInputMessage();
+                    shortMsgShow.ShowMessage(UiMessage.emptyNameWrongInputMessage);
                 }
                 else if (int.TryParse(newGroup, out _))
                 {
-                    shortMsgShow.Number_WrongInputMessage();
+                    shortMsgShow.ShowMessage(UiMessage.numberWrongInputMessage);
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
-                    shortMsgShow.GroupExists_WrongInputMessage(newGroup);
+                    shortMsgShow.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
                 }
                 else
                 {
@@ -51,7 +52,7 @@ namespace Bill.FullStack
 
         public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
         {
-            shortMsgShow.AddItemPrices_Message(selectedGroupNumber);
+            shortMsgShow.ShowMessage(UiMessage.AddItemPricesMessage(selectedGroupNumber));
             Group group = new("");
             double price = 0;
 
@@ -64,16 +65,16 @@ namespace Bill.FullStack
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    shortMsgShow.AddedPrice_InfoMessage(currency, group, price);
+                    shortMsgShow.ShowMessage(UiMessage.AddedPriceInfoMessage(currency, group, price));
                 }
                 else if (success && price == 0)
                 {
-                    shortMsgShow.TotalPay_InfoMessage(currency, group);
+                    shortMsgShow.ShowMessage(UiMessage.TotalPayInfoMessage(currency, group));
                     break;
                 }
                 else
                 {
-                    shortMsgShow.NothingAdded_WrongInputMessage();
+                    shortMsgShow.ShowMessage(UiMessage.nothingAddedWrongInputMessage);
                 }
             }
 
@@ -107,14 +108,14 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        shortMsgShow.ChooseAgain4_WrongInputMessage();
+                        shortMsgShow.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
                         feeChoosen = Console.ReadLine()!;
                         break;
                 }
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            selectMsgShow.ShowPricesDatas(group, currency, receipt);
+            selectMsgShow.ShowMessage(UiMessage.ShowPricesDatas(group, currency, receipt));
             Calculation.CheckAllCalculated(receipt, currency);
         }
     }
