@@ -6,6 +6,7 @@
         {
             Console.Clear();
             Console.WriteLine(message);
+
             if (message.Contains("Press any key"))
             {
                 Console.ReadKey();

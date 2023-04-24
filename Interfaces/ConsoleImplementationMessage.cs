@@ -5,6 +5,7 @@
         public void ShowMessage(string message)
         {
             Console.WriteLine(message);
+
             if (message.Contains("Press any key"))
             {
                 Console.ReadKey();
