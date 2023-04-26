@@ -9,7 +9,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine(UiConst._divLine);
-            sw.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} -- Press 0 to exit");
+            sw.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} {UiConst.continueReturnMessage} {UiConst.enterMessage}");
 
             return sw.ToString();
         }
@@ -45,7 +45,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine(UiConst._divLine);
-            sw.WriteLine("Select a group/person to add prices to!\n");
+            sw.WriteLine($"Select a group/person to add prices to! {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
             sw.WriteLine("Options:");
 
             int num = 0;
@@ -64,7 +64,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine(UiConst._divLine);
-            sw.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total} {currency})");
+            sw.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total} {currency}) {UiConst.continueReturnMessage} {UiConst.enterMessage}");
             sw.WriteLine($"1) {(int)ServiceFee.zero}% fee");
             sw.WriteLine($"2) {(int)ServiceFee.low}% fee");
             sw.WriteLine($"3) {(int)ServiceFee.medium}% fee");
@@ -77,7 +77,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine("Already calculated!");
-            sw.WriteLine("Calculate anyway? (y/n)");
+            sw.WriteLine($"Calculate anyway? (y/n) {UiConst.enterMessage}");
             string? input = Console.ReadLine();
 
             if (input == "n")
@@ -86,7 +86,7 @@ namespace Bill.Ui
             }
             else if (input != "y")
             {
-                sw.WriteLine("Wrong input! Type 'y' or 'n'");
+                sw.WriteLine($"Wrong input! Type 'y' or 'n'! {UiConst.enterMessage}");
             }
 
             return sw.ToString();
@@ -96,7 +96,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine(UiConst._divLine);
-            sw.WriteLine("Select a currency!\n");
+            sw.WriteLine($"Select a currency! {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
             sw.WriteLine("Options:");
             sw.WriteLine($"1) {Currency.USD}");
             sw.WriteLine($"2) {Currency.EUR}");

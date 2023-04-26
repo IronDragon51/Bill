@@ -4,11 +4,16 @@
     {
         public void ShowMessage(string message)
         {
+            if (message.Contains("Add groups"))
+            {
+                Console.Clear();
+            }
+
             Console.WriteLine(message);
 
             if (message.Contains("Press any key"))
             {
-                Console.ReadKey();
+                Console.ReadKey(true);
             }
             else if (message.Contains("All groups / person calculated!"))
             {

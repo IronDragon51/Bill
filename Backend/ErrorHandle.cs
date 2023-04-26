@@ -7,13 +7,19 @@ namespace Bill.Backend
     {
         private static readonly IMessage showMessage = new ConsoleImplementationMessage();
 
-        public static Group CheckGroupExistence(Group group, string selectedGroup)
+        public static Group? CheckGroupExistence(Group group, string selectedGroupNumber)
         {
             try
             {
-                group = Groups.groups.FirstOrDefault(g => g.Name == Groups.groups[Convert.ToInt32(selectedGroup) - 1].Name)!;
+                int selectedIndex = Convert.ToInt32(selectedGroupNumber) - 1;
+                if (selectedIndex < 0 || selectedIndex >= Groups.groups.Count)
+                {
+                    throw new ArgumentOutOfRangeException(selectedGroupNumber + ": Invalid group index.");
+                }
 
-                if (string.IsNullOrEmpty(group.Name))
+                group = Groups.groups.FirstOrDefault(g => g.Name == Groups.groups[Convert.ToInt32(selectedGroupNumber) - 1].Name)!;
+
+                if (string.IsNullOrEmpty(group.Name) || group == null)
                 {
                     throw new Exception("No group like this!");
                 }
@@ -21,6 +27,7 @@ namespace Bill.Backend
             catch (Exception e)
             {
                 showMessage.ShowMessage(e.Message);
+                return null;
             }
 
             return group;

@@ -1,22 +1,21 @@
 ﻿using Bill.Definition;
 using Bill.FullStack;
-using Bill.Interfaces;
 using Bill.Ui;
 
 namespace Bill.Backend
 {
     public static class Calculation
     {
-        private static readonly IMenu _menu = new ConsoleImplementationMenu();
-        private static readonly IMessage _message = new ConsoleImplementationMessage();
-
         public static bool CheckAllCalculated(Receipt receipt, string currency)
         {
-            _message.ShowMessage(UiMessage.ContinueMessage());
+            UiConst._message.ShowMessage(UiMessage.ContinueMessage());
 
             if (Groups.groups.All(g => g.Total > 0))
             {
-                _menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(currency));
+                if (!Console.IsOutputRedirected)
+                {
+                    UiConst._menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(currency));
+                }
 
                 return true;
             }

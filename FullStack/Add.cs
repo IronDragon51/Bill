@@ -1,18 +1,18 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
-using Bill.Interfaces;
 using Bill.Ui;
 
 namespace Bill.FullStack
 {
     public static class Add
     {
-        private static readonly IMenu _menu = new ConsoleImplementationMenu();
-        private static readonly IMessage _message = new ConsoleImplementationMessage();
-
         public static void AddLoop(Receipt receipt, string currency)
         {
-            string selectedGroup = Select.SelectGroup(currency);
+            string? selectedGroup = null;
+            while (selectedGroup == null)
+            {
+                selectedGroup = Select.SelectGroup(currency);
+            }
             Group group = AddItems(selectedGroup, receipt, currency);
             string feeChoosen = Service.ChooseServiceFee(selectedGroup, currency);
             AddServiceFee(group, feeChoosen, currency, receipt);
@@ -20,27 +20,31 @@ namespace Bill.FullStack
 
         public static void AddGroups(Groups groups)
         {
-            _message.ShowMessage(UiMessage.AddGroupsMessage());
+            UiConst._message.ShowMessage(UiMessage.AddGroupsMessage());
 
             while (true)
             {
                 string newGroup = Console.ReadLine()!;
 
-                if (newGroup == "0")
+                if (newGroup == "0" && Groups.groups.Count > 0)
                 {
                     break;
                 }
-                else if (string.IsNullOrEmpty(newGroup))
+                else if (newGroup == "0" && Groups.groups.Count <= 0)
                 {
-                    _message.ShowMessage(UiConst.emptyNameWrongInputMessage);
+                    UiConst._message.ShowMessage(UiConst.noGroupsMessage);
+                }
+                else if (string.IsNullOrWhiteSpace(newGroup))
+                {
+                    UiConst._message.ShowMessage(UiConst.emptyNameWrongInputMessage);
                 }
                 else if (int.TryParse(newGroup, out _))
                 {
-                    _message.ShowMessage(UiConst.numberWrongInputMessage);
+                    UiConst._message.ShowMessage(UiConst.numberWrongInputMessage);
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
-                    _message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
+                    UiConst._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
                 }
                 else
                 {
@@ -52,7 +56,7 @@ namespace Bill.FullStack
 
         public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
         {
-            _menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupNumber));
+            UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupNumber));
             Group group = new("");
             double price = 0;
 
@@ -65,16 +69,16 @@ namespace Bill.FullStack
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    _message.ShowMessage(UiMessage.AddedPriceInfoMessage(currency, group, price));
+                    UiConst._message.ShowMessage(UiMessage.AddedPriceInfoMessage(currency, group, price));
                 }
                 else if (success && price == 0)
                 {
-                    _message.ShowMessage(UiMessage.TotalPayInfoMessage(currency, group));
+                    UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(currency, group));
                     break;
                 }
                 else
                 {
-                    _message.ShowMessage(UiConst.nothingAddedWrongInputMessage);
+                    UiConst._message.ShowMessage(UiConst.nothingAddedWrongInputMessage);
                 }
             }
 
@@ -108,14 +112,14 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        _message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
+                        UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
                         feeChoosen = Console.ReadLine()!;
                         break;
                 }
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            _menu.ShowMenu(UiMenu.ShowPricesDatas(group, currency, receipt));
+            UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(group, currency, receipt));
             Calculation.CheckAllCalculated(receipt, currency);
         }
     }

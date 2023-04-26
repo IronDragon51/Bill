@@ -1,25 +1,27 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
-using Bill.Interfaces;
 using Bill.Ui;
 
 namespace Bill.FullStack
 {
     public static class Select
     {
-        private static readonly IMenu _menu = new ConsoleImplementationMenu();
-        private static readonly IMessage _message = new ConsoleImplementationMessage();
-
         public static string SelectGroup(string currency)
         {
-            _menu.ShowMenu(UiMenu.ShowSelectableGroups());
-            Group group = new("");
+            UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
+            Group? group = new("");
             string selectedGroup = Console.ReadLine()!;
             group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
 
-            if (group.Total > 0)
+            if (group == null)
             {
-                _menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency));
+                UiConst._message.ShowMessage(UiMessage.WaitKeyPressMessage());
+                return null;
+            }
+
+            if (group!.Total > 0)
+            {
+                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency));
             }
 
             return group.Name;
@@ -28,7 +30,7 @@ namespace Bill.FullStack
 
         public static string SelectCurrency()
         {
-            _menu.ShowMenu(UiMenu.ShowCurrencies());
+            UiConst._menu.ShowMenu(UiMenu.ShowCurrencies());
 
             string currency = "";
             string? choice = Console.ReadLine();
@@ -51,7 +53,7 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        _message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
+                        UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
                         choice = Console.ReadLine();
                         break;
                 }
