@@ -6,22 +6,22 @@ namespace Bill.Backend
 {
     public static class Calculation
     {
-        public static bool CheckAllCalculated(Receipt receipt, string currency)
+        public static bool CheckAllCalculated(Receipt receipt, string currency, Groups groups)
         {
             UiConst._message.ShowMessage(UiMessage.ContinueMessage());
 
             if (Groups.groups.All(g => g.Total > 0))
             {
-                if (!Console.IsOutputRedirected)
-                {
-                    UiConst._menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(currency));
-                }
+                //if (!Console.IsOutputRedirected)
+                //{
+                UiConst._menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(currency));
+                //}
 
                 return true;
             }
             else
             {
-                Add.AddLoop(receipt, currency);
+                Add.AddLoop(receipt, currency, groups);
 
                 return false;
             }

@@ -1,58 +1,82 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
 using Bill.Ui;
+using System.Text.RegularExpressions;
+using Group = Bill.Definition.Group;
 
 namespace Bill.FullStack
 {
     public static class Add
     {
-        public static void AddLoop(Receipt receipt, string currency)
+        public static void AddLoop(Receipt receipt, string currency, Groups groups)
         {
             string? selectedGroup = null;
+
             while (selectedGroup == null)
             {
-                selectedGroup = Select.SelectGroup(currency);
+                selectedGroup = Select.SelectGroup(currency, groups);
             }
+
             Group group = AddItems(selectedGroup, receipt, currency);
             string feeChoosen = Service.ChooseServiceFee(selectedGroup, currency);
-            AddServiceFee(group, feeChoosen, currency, receipt);
+            AddServiceFee(group, groups, feeChoosen, currency, receipt);
         }
+
 
         public static void AddGroups(Groups groups)
         {
+            Regex hungarianLettersRegex = new("^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű ]*$");
             UiConst._message.ShowMessage(UiMessage.AddGroupsMessage());
+            UiConst._message.ShowMessage(UiMessage.ShowAllGroups());
 
             while (true)
             {
                 string newGroup = Console.ReadLine()!;
+                ValidateHungarianLettersInput(hungarianLettersRegex, newGroup);
 
-                if (newGroup == "0" && Groups.groups.Count > 0)
+                if (newGroup == "0")
                 {
-                    break;
+                    if (Groups.groups.Count > 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        UiConst._message.ShowMessage(UiConst.noGroupsMessage);
+                    }
                 }
-                else if (newGroup == "0" && Groups.groups.Count <= 0)
-                {
-                    UiConst._message.ShowMessage(UiConst.noGroupsMessage);
-                }
-                else if (string.IsNullOrWhiteSpace(newGroup))
-                {
-                    UiConst._message.ShowMessage(UiConst.emptyNameWrongInputMessage);
-                }
-                else if (int.TryParse(newGroup, out _))
-                {
-                    UiConst._message.ShowMessage(UiConst.numberWrongInputMessage);
-                }
-                else if (Groups.groups.Any(n => n.Name == newGroup))
-                {
-                    UiConst._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
-                }
-                else
-                {
-                    groups.AddNewGroup(newGroup);
-                }
+
+                HandleNewGroupInput(groups, newGroup);
             }
         }
 
+        private static void ValidateHungarianLettersInput(Regex hungarianLettersRegex, string newGroup)
+        {
+            if (!hungarianLettersRegex.IsMatch(newGroup))
+            {
+                Console.WriteLine("Invalid input. Please enter only Hungarian letters!");
+            }
+        }
+
+        private static void HandleNewGroupInput(Groups groups, string newGroup)
+        {
+            if (newGroup == "00")
+            {
+                Program.Main();
+            }
+            else if (string.IsNullOrWhiteSpace(newGroup))
+            {
+                UiConst._message.ShowMessage(UiConst.emptyNameWrongInputMessage);
+            }
+            else if (Groups.groups.Any(n => n.Name == newGroup))
+            {
+                UiConst._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
+            }
+            else
+            {
+                groups.AddNewGroup(newGroup);
+            }
+        }
 
         public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
         {
@@ -86,7 +110,7 @@ namespace Bill.FullStack
         }
 
 
-        public static void AddServiceFee(Group group, string feeChoosen, string currency, Receipt receipt)
+        public static void AddServiceFee(Group group, Groups groups, string feeChoosen, string currency, Receipt receipt)
         {
             double serviceFeePercent = 0;
             bool exit = false;
@@ -120,7 +144,7 @@ namespace Bill.FullStack
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
             UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(group, currency, receipt));
-            Calculation.CheckAllCalculated(receipt, currency);
+            Calculation.CheckAllCalculated(receipt, currency, groups);
         }
     }
 }

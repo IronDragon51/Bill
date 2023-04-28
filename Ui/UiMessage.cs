@@ -39,6 +39,7 @@ namespace Bill.Ui
                     output += ", ";
                 }
             }
+
             output += " options";
 
             return output;
@@ -48,6 +49,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine("\nPress any key to continue");
+
             return sw.ToString();
         }
 
@@ -55,6 +57,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine("Press any key to continue and try again");
+
             return sw.ToString();
         }
 
@@ -65,6 +68,19 @@ namespace Bill.Ui
             sw.WriteLine("This program makes your Friday dinners more enjoybale with you friends or family!\n");
             sw.WriteLine("Don't waste your time and energy on calculating how much do you need to pay each");
             sw.WriteLine("This app does it for you! Add people, prices, service fee, and let the program do it's job!");
+
+            return sw.ToString();
+        }
+
+        public static string ShowAllGroups()
+        {
+            StringWriter sw = new();
+
+            foreach (Group currentGroup in Groups.groups)
+            {
+                sw.WriteLine($"{currentGroup.Name}");
+            }
+
             return sw.ToString();
         }
     }

@@ -47,8 +47,8 @@ namespace Bill.Ui
             sw.WriteLine(UiConst._divLine);
             sw.WriteLine($"Select a group/person to add prices to! {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
             sw.WriteLine("Options:");
-
             int num = 0;
+
             foreach (Group currentGroup in Groups.groups)
             {
                 num++;
@@ -73,7 +73,7 @@ namespace Bill.Ui
             return sw.ToString();
         }
 
-        public static string AlreadyCalculatedMessage(string currency)
+        public static string AlreadyCalculatedMessage(string currency, Groups groups)
         {
             StringWriter sw = new();
             sw.WriteLine("Already calculated!");
@@ -82,7 +82,7 @@ namespace Bill.Ui
 
             if (input == "n")
             {
-                Select.SelectGroup(currency);
+                Select.SelectGroup(currency, groups);
             }
             else if (input != "y")
             {
@@ -96,7 +96,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine(UiConst._divLine);
-            sw.WriteLine($"Select a currency! {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
+            sw.WriteLine($"Select a currency! {UiConst.returnMessage} {UiConst.enterMessage}\n");
             sw.WriteLine("Options:");
             sw.WriteLine($"1) {Currency.USD}");
             sw.WriteLine($"2) {Currency.EUR}");
@@ -104,7 +104,5 @@ namespace Bill.Ui
 
             return sw.ToString();
         }
-
-
     }
 }

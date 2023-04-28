@@ -6,7 +6,7 @@ namespace Bill
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Groups groups = new();
             Receipt receipt = new();
@@ -14,8 +14,8 @@ namespace Bill
             UiConst._message.ShowMessage(UiMessage.WelcomeMessage());
             UiConst._message.ShowMessage(UiMessage.ContinueMessage());
             Add.AddGroups(groups);
-            string currency = Select.SelectCurrency();
-            Add.AddLoop(receipt, currency);
+            string currency = Select.SelectCurrency(groups);
+            Add.AddLoop(receipt, currency, groups);
 
         }
     }

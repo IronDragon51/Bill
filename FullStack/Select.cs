@@ -1,17 +1,26 @@
 ﻿using Bill.Backend;
 using Bill.Definition;
+using Bill.Interfaces;
 using Bill.Ui;
 
 namespace Bill.FullStack
 {
     public static class Select
     {
-        public static string SelectGroup(string currency)
+        public static string? SelectGroup(string currency, Groups groups)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
-            string selectedGroup = Console.ReadLine()!;
-            group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
+            string selectedGroup = ConsoleExtraMethods.GetReadLineString();
+
+            if (selectedGroup == "00")
+            {
+                currency = SelectCurrency(groups);
+            }
+            else
+            {
+                group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
+            }
 
             if (group == null)
             {
@@ -21,19 +30,19 @@ namespace Bill.FullStack
 
             if (group!.Total > 0)
             {
-                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency));
+                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency, groups));
             }
 
             return group.Name;
         }
 
 
-        public static string SelectCurrency()
+        public static string SelectCurrency(Groups groups)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowCurrencies());
 
             string currency = "";
-            string? choice = Console.ReadLine();
+            string? choice = ConsoleExtraMethods.GetReadLineString();
             bool exit = false;
 
             while (!exit)
@@ -50,6 +59,10 @@ namespace Bill.FullStack
 
                     case "3":
                         currency = SetCurrency(out exit, Currency.HUF);
+                        break;
+
+                    case "00":
+                        Add.AddGroups(groups);
                         break;
 
                     default:
