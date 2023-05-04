@@ -8,7 +8,6 @@ namespace Bill.Ui
         public static string GetItemPricesMessage(string selectedGroupName)
         {
             StringWriter sw = new();
-            sw.WriteLine(UiConst._divLine);
             sw.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} {UiConst.continueReturnMessage} {UiConst.enterMessage}");
 
             return sw.ToString();
@@ -44,7 +43,6 @@ namespace Bill.Ui
         public static string ShowSelectableGroups()
         {
             StringWriter sw = new();
-            sw.WriteLine(UiConst._divLine);
             sw.WriteLine($"Select a group/person to add prices to! {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
             sw.WriteLine("Options:");
             int num = 0;
@@ -63,7 +61,6 @@ namespace Bill.Ui
         public static string ChooseServiceFeeMessage(Group selectedGroup, string currency)
         {
             StringWriter sw = new();
-            sw.WriteLine(UiConst._divLine);
             sw.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total} {currency}) {UiConst.continueReturnMessage} {UiConst.enterMessage}");
             sw.WriteLine($"1) {(int)ServiceFee.zero}% fee");
             sw.WriteLine($"2) {(int)ServiceFee.low}% fee");
@@ -73,7 +70,7 @@ namespace Bill.Ui
             return sw.ToString();
         }
 
-        public static string AlreadyCalculatedMessage(string currency, Groups groups)
+        public static string AlreadyCalculatedMessage(string currency, Groups groups, Receipt receipt)
         {
             StringWriter sw = new();
             sw.WriteLine("Already calculated!");
@@ -82,7 +79,7 @@ namespace Bill.Ui
 
             if (input == "n")
             {
-                Select.SelectGroup(currency, groups);
+                Select.SelectGroup(currency, groups, receipt);
             }
             else if (input != "y")
             {
@@ -95,7 +92,6 @@ namespace Bill.Ui
         public static string ShowCurrencies()
         {
             StringWriter sw = new();
-            sw.WriteLine(UiConst._divLine);
             sw.WriteLine($"Select a currency! {UiConst.returnMessage} {UiConst.enterMessage}\n");
             sw.WriteLine("Options:");
             sw.WriteLine($"1) {Currency.USD}");

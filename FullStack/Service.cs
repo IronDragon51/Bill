@@ -13,10 +13,10 @@ namespace Bill.FullStack
             Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
             _menu.ShowMenu(UiMenu.ChooseServiceFeeMessage(selectedGroup, currency));
 
-            string feeChoosen = Console.ReadLine()!;
+            string choice = Console.ReadLine()!;
             Group group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
 
-            return feeChoosen;
+            return choice;
         }
     }
 }

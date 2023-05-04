@@ -12,33 +12,51 @@ namespace Bill.FullStack
         {
             string? selectedGroup = null;
 
-            while (selectedGroup == null)
+            while (selectedGroup == null || selectedGroup == "")
             {
-                selectedGroup = Select.SelectGroup(currency, groups);
+                selectedGroup = Select.SelectGroup(currency, groups, receipt);
             }
 
             Group group = AddItems(selectedGroup, receipt, currency);
-            string feeChoosen = Service.ChooseServiceFee(selectedGroup, currency);
-            AddServiceFee(group, groups, feeChoosen, currency, receipt);
+            string choice = Service.ChooseServiceFee(selectedGroup, currency);
+            AddServiceFee(group, groups, choice, currency, receipt);
         }
 
 
-        public static void AddGroups(Groups groups)
+        public static bool AddGroups(Groups groups, Receipt receipt)
         {
             Regex hungarianLettersRegex = new("^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű ]*$");
             UiConst._message.ShowMessage(UiMessage.AddGroupsMessage());
             UiConst._message.ShowMessage(UiMessage.ShowAllGroups());
 
+
             while (true)
             {
                 string newGroup = Console.ReadLine()!;
-                ValidateHungarianLettersInput(hungarianLettersRegex, newGroup);
 
                 if (newGroup == "0")
                 {
                     if (Groups.groups.Count > 0)
                     {
-                        break;
+
+                        while (true)
+                        {
+
+                            string currency = Select.SelectCurrency(groups, receipt);
+                            AddLoop(receipt, currency, groups);
+
+                            if (currency == "00")
+                            {
+                                AddGroups(groups, receipt);
+                            }
+                            else
+                            {
+                                currency = Select.SelectCurrency(groups, receipt);
+                                AddLoop(receipt, currency, groups);
+                            }
+                            return false;
+                        }
+
                     }
                     else
                     {
@@ -46,37 +64,40 @@ namespace Bill.FullStack
                     }
                 }
 
-                HandleNewGroupInput(groups, newGroup);
+                if (!ValidateHungarianLettersInput(hungarianLettersRegex, newGroup))
+                {
+                    continue;
+                }
+                else if (newGroup == "00")
+                {
+                    return true;
+                }
+                else if (string.IsNullOrWhiteSpace(newGroup))
+                {
+                    UiConst._message.ShowMessage(UiConst.emptyNameWrongInputMessage);
+                }
+                else if (Groups.groups.Any(n => n.Name == newGroup))
+                {
+                    UiConst._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
+                }
+                else
+                {
+                    groups.AddNewGroup(newGroup);
+                }
             }
+
         }
 
-        private static void ValidateHungarianLettersInput(Regex hungarianLettersRegex, string newGroup)
+        private static bool ValidateHungarianLettersInput(Regex hungarianLettersRegex, string newGroup)
         {
             if (!hungarianLettersRegex.IsMatch(newGroup))
             {
                 Console.WriteLine("Invalid input. Please enter only Hungarian letters!");
+                return false;
             }
+            return true;
         }
 
-        private static void HandleNewGroupInput(Groups groups, string newGroup)
-        {
-            if (newGroup == "00")
-            {
-                Program.Main();
-            }
-            else if (string.IsNullOrWhiteSpace(newGroup))
-            {
-                UiConst._message.ShowMessage(UiConst.emptyNameWrongInputMessage);
-            }
-            else if (Groups.groups.Any(n => n.Name == newGroup))
-            {
-                UiConst._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
-            }
-            else
-            {
-                groups.AddNewGroup(newGroup);
-            }
-        }
 
         public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
         {

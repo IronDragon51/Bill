@@ -7,7 +7,7 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        public static string? SelectGroup(string currency, Groups groups)
+        public static string? SelectGroup(string currency, Groups groups, Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
@@ -15,7 +15,7 @@ namespace Bill.FullStack
 
             if (selectedGroup == "00")
             {
-                currency = SelectCurrency(groups);
+                currency = SelectCurrency(groups, receipt);
             }
             else
             {
@@ -30,14 +30,14 @@ namespace Bill.FullStack
 
             if (group!.Total > 0)
             {
-                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency, groups));
+                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency, groups, receipt));
             }
 
             return group.Name;
         }
 
 
-        public static string SelectCurrency(Groups groups)
+        public static string SelectCurrency(Groups groups, Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowCurrencies());
 
@@ -50,20 +50,18 @@ namespace Bill.FullStack
                 switch (choice)
                 {
                     case "1":
-                        currency = SetCurrency(out exit, Currency.USD);
-                        break;
+                        return Currency.USD.ToString();
 
                     case "2":
-                        currency = SetCurrency(out exit, Currency.EUR);
-                        break;
+                        return Currency.EUR.ToString();
 
                     case "3":
-                        currency = SetCurrency(out exit, Currency.HUF);
-                        break;
+                        return Currency.HUF.ToString();
 
                     case "00":
-                        Add.AddGroups(groups);
-                        break;
+                        return "00";
+                    //Add.AddGroups(groups, receipt);
+                    //SelectCurrency(groups, receipt);
 
                     default:
                         UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
@@ -73,13 +71,6 @@ namespace Bill.FullStack
             }
 
             return currency;
-        }
-
-        public static string SetCurrency(out bool exit, Currency enumCurrency)
-        {
-            exit = true;
-
-            return enumCurrency.ToString();
         }
     }
 }
