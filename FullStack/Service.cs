@@ -8,10 +8,10 @@ namespace Bill.FullStack
     {
         private static readonly IMenu _menu = new ConsoleImplementationMenu();
 
-        public static string ChooseServiceFee(string selectedGroupName, string currency)
+        public static string ChooseServiceFee(string selectedGroupName, Receipt receipt)
         {
             Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
-            _menu.ShowMenu(UiMenu.ChooseServiceFeeMessage(selectedGroup, currency));
+            _menu.ShowMenu(UiMenu.ChooseServiceFeeMessage(selectedGroup, receipt.Currency));
 
             string choice = Console.ReadLine()!;
             Group group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;

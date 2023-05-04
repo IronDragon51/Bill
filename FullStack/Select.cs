@@ -7,7 +7,7 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        public static string? SelectGroup(string currency, Groups groups, Receipt receipt)
+        public static string? SelectGroup(Groups groups, Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
@@ -15,7 +15,7 @@ namespace Bill.FullStack
 
             if (selectedGroup == "00")
             {
-                currency = SelectCurrency(groups, receipt);
+                receipt.Currency = SelectCurrency(groups, receipt);
             }
             else
             {
@@ -30,7 +30,7 @@ namespace Bill.FullStack
 
             if (group!.Total > 0)
             {
-                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(currency, groups, receipt));
+                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(groups, receipt));
             }
 
             return group.Name;

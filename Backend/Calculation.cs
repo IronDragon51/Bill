@@ -6,7 +6,7 @@ namespace Bill.Backend
 {
     public static class Calculation
     {
-        public static bool CheckAllCalculated(Receipt receipt, string currency, Groups groups)
+        public static bool CheckAllCalculated(Groups groups, Receipt receipt)
         {
             UiConst._message.ShowMessage(UiMessage.ContinueMessage());
 
@@ -14,14 +14,14 @@ namespace Bill.Backend
             {
                 //if (!Console.IsOutputRedirected)
                 //{
-                UiConst._menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(currency));
+                UiConst._menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(receipt));
                 //}
 
                 return true;
             }
             else
             {
-                Add.AddLoop(receipt, currency, groups);
+                Add.AddLoop(groups, receipt);
 
                 return false;
             }

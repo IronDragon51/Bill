@@ -8,18 +8,18 @@ namespace Bill.FullStack
 {
     public static class Add
     {
-        public static void AddLoop(Receipt receipt, string currency, Groups groups)
+        public static void AddLoop(Groups groups, Receipt receipt)
         {
             string? selectedGroup = null;
 
             while (selectedGroup == null || selectedGroup == "")
             {
-                selectedGroup = Select.SelectGroup(currency, groups, receipt);
+                selectedGroup = Select.SelectGroup(groups, receipt);
             }
 
-            Group group = AddItems(selectedGroup, receipt, currency);
-            string choice = Service.ChooseServiceFee(selectedGroup, currency);
-            AddServiceFee(group, groups, choice, currency, receipt);
+            Group group = AddItems(selectedGroup, receipt);
+            string choice = Service.ChooseServiceFee(selectedGroup, receipt);
+            AddServiceFee(group, groups, choice, receipt);
         }
 
 
@@ -43,7 +43,7 @@ namespace Bill.FullStack
                         {
 
                             string currency = Select.SelectCurrency(groups, receipt);
-                            AddLoop(receipt, currency, groups);
+                            AddLoop(groups, receipt);
 
                             if (currency == "00")
                             {
@@ -52,7 +52,7 @@ namespace Bill.FullStack
                             else
                             {
                                 currency = Select.SelectCurrency(groups, receipt);
-                                AddLoop(receipt, currency, groups);
+                                AddLoop(groups, receipt);
                             }
                             return false;
                         }
@@ -61,6 +61,7 @@ namespace Bill.FullStack
                     else
                     {
                         UiConst._message.ShowMessage(UiConst.noGroupsMessage);
+                        continue;
                     }
                 }
 
@@ -99,7 +100,7 @@ namespace Bill.FullStack
         }
 
 
-        public static Group AddItems(string selectedGroupNumber, Receipt receipt, string currency)
+        public static Group AddItems(string selectedGroupNumber, Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupNumber));
             Group group = new("");
@@ -114,11 +115,11 @@ namespace Bill.FullStack
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    UiConst._message.ShowMessage(UiMessage.AddedPriceInfoMessage(currency, group, price));
+                    UiConst._message.ShowMessage(UiMessage.AddedPriceInfoMessage(group, price, receipt));
                 }
                 else if (success && price == 0)
                 {
-                    UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(currency, group));
+                    UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(group, receipt));
                     break;
                 }
                 else
@@ -131,7 +132,7 @@ namespace Bill.FullStack
         }
 
 
-        public static void AddServiceFee(Group group, Groups groups, string feeChoosen, string currency, Receipt receipt)
+        public static void AddServiceFee(Group group, Groups groups, string feeChoosen, Receipt receipt)
         {
             double serviceFeePercent = 0;
             bool exit = false;
@@ -164,8 +165,8 @@ namespace Bill.FullStack
             }
 
             Calculation.GetTotalsWithFee(group, receipt, serviceFeePercent);
-            UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(group, currency, receipt));
-            Calculation.CheckAllCalculated(receipt, currency, groups);
+            UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(group, receipt));
+            Calculation.CheckAllCalculated(groups, receipt);
         }
     }
 }

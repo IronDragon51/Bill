@@ -12,14 +12,14 @@ namespace Bill.Ui
             return sw.ToString();
         }
 
-        public static string AddedPriceInfoMessage(string currency, Group group, double price)
+        public static string AddedPriceInfoMessage(Group group, double price, Receipt receipt)
         {
-            return $"Added {price} {currency}. Current total: {group.ToStringTotal(currency)}";
+            return $"Added {price} {receipt.Currency}. Current total: {group.ToStringTotal(receipt.Currency!)}";
         }
 
-        public static string TotalPayInfoMessage(string currency, Group group)
+        public static string TotalPayInfoMessage(Group group, Receipt receipt)
         {
-            return $"Total price to pay: {group.ToStringTotal(currency)}";
+            return $"Total price to pay: {group.ToStringTotal(receipt.Currency!)}";
         }
 
         public static string GroupExistsWrongInputMessage(string newGroup)

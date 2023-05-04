@@ -19,6 +19,7 @@
     {
         public double Total { get; set; }
         public double TotalWithFee { get; set; }
+        public string? Currency { get; set; }
 
         public string ToStringTotal(string currency)
         {

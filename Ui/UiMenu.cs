@@ -13,19 +13,19 @@ namespace Bill.Ui
             return sw.ToString();
         }
 
-        public static string ShowPricesDatas(Group group, string currency, Receipt receipt)
+        public static string ShowPricesDatas(Group group, Receipt receipt)
         {
             StringWriter sw = new();
-            sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(currency)} ");
-            sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(currency)} \n");
-            sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(currency)} ");
-            sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(currency)}");
+            sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(receipt.Currency)} ");
+            sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(receipt.Currency)} \n");
+            sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(receipt.Currency)} ");
+            sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(receipt.Currency)}");
             sw.WriteLine(UiConst._divLineNAfter);
 
             return sw.ToString();
         }
 
-        public static string AllGroupsCalculatedMessage(string currency)
+        public static string AllGroupsCalculatedMessage(Receipt receipt)
         {
             StringWriter sw = new();
             sw.WriteLine("All groups/person calculated!\n");
@@ -33,7 +33,7 @@ namespace Bill.Ui
 
             foreach (Group currGroup in Groups.groups)
             {
-                sw.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(currency)} \t\t {currGroup.ToStringTotalWithFee(currency)}");
+                sw.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(receipt.Currency)} \t\t {currGroup.ToStringTotalWithFee(receipt.Currency)}");
             }
 
             return sw.ToString();
@@ -70,7 +70,7 @@ namespace Bill.Ui
             return sw.ToString();
         }
 
-        public static string AlreadyCalculatedMessage(string currency, Groups groups, Receipt receipt)
+        public static string AlreadyCalculatedMessage(Groups groups, Receipt receipt)
         {
             StringWriter sw = new();
             sw.WriteLine("Already calculated!");
@@ -79,7 +79,7 @@ namespace Bill.Ui
 
             if (input == "n")
             {
-                Select.SelectGroup(currency, groups, receipt);
+                Select.SelectGroup(groups, receipt);
             }
             else if (input != "y")
             {
