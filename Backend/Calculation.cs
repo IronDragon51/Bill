@@ -9,7 +9,7 @@ namespace Bill.Backend
         {
             if (Groups.groups.All(g => g.Total > 0))
             {
-                UiConst._message.ShowMessage(UiMessage.AllGroupsCalculatedMessage(receipt));
+                UiConstants._message.ShowMessage(UiMessage.AllGroupsCalculatedMessage(receipt));
             }
         }
 

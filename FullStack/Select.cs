@@ -9,7 +9,7 @@ namespace Bill.FullStack
     {
         public static string SelectGroup(Groups groups, Receipt receipt)
         {
-            UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
+            UiConstants._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
             groups.selectedGroupName = ConsoleExtraMethods.GetReadLineString();
 
@@ -25,7 +25,7 @@ namespace Bill.FullStack
 
             if (group == null)
             {
-                UiConst._message.ShowMessage(UiMessage.WaitKeyPressMessage());
+                UiConstants._message.ShowMessage(UiMessage.WaitKeyPressMessage());
                 return "";
             }
 
@@ -33,7 +33,7 @@ namespace Bill.FullStack
 
             if (group!.Total > 0)
             {
-                UiConst._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(groups, receipt));
+                UiConstants._menu.ShowMenu(UiMenu.AlreadyCalculatedMessage(groups, receipt));
             }
 
             return group.Name;
@@ -42,7 +42,7 @@ namespace Bill.FullStack
 
         public static void SelectCurrency(Receipt receipt)
         {
-            UiConst._menu.ShowMenu(UiMenu.ShowCurrencies());
+            UiConstants._menu.ShowMenu(UiMenu.ShowCurrencies());
 
             string? choice = ConsoleExtraMethods.GetReadLineString();
             bool exit = false;
@@ -72,7 +72,7 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
+                        UiConstants._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
                         choice = Console.ReadLine();
                         break;
                 }

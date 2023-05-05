@@ -24,8 +24,8 @@ namespace Bill.FullStack
             string choice = ChooseServiceFee(groups, receipt);
             double serviceFeePercent = Add.AddServiceFee(groups, choice, receipt);
             Calculation.UpdateTotalsWithFee(groups, receipt, serviceFeePercent);
-            UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(groups, receipt));
-            UiConst._message.ShowMessage(UiMessage.ContinueMessage());
+            UiConstants._menu.ShowMenu(UiMenu.ShowPricesDatas(groups, receipt));
+            UiConstants._message.ShowMessage(UiMessage.ContinueMessage());
             Calculation.CheckAllCalculated(groups, receipt);
             PageManager.currentPage = Page.SelectGroupPage;
         }

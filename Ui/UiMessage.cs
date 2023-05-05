@@ -18,15 +18,21 @@ namespace Bill.Ui
         public static string AddGroupsMessage()
         {
             StringWriter sw = new();
-            sw.Write($"Add groups/people {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
+            sw.Write($"Add groups/people {UiConstants.ContinueReturnMessage} {UiConstants.EnterMessage}\n");
 
             return sw.ToString();
         }
 
         public static string AddedPriceInfoMessage(Group group, double price, Receipt receipt)
         {
+            if (receipt == null)
+            {
+                throw new ArgumentNullException(nameof(receipt));
+            }
+
             return $"Added {price} {receipt.Currency}. Current total: {group.ToStringTotal(receipt.Currency!)}";
         }
+
 
         public static string TotalPayInfoMessage(Group group, Receipt receipt)
         {
@@ -75,7 +81,6 @@ namespace Bill.Ui
         public static string ShowAllGroups()
         {
             StringWriter sw = new();
-
             foreach (Group currentGroup in Groups.groups)
             {
                 sw.WriteLine($"{currentGroup.Name}");

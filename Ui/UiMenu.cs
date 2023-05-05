@@ -9,20 +9,20 @@ namespace Bill.Ui
         public static string GetItemPricesMessage(Groups groups)
         {
             StringWriter sw = new();
-            sw.WriteLine($"Add item prices (separated with enter) to {groups.selectedGroupName} {UiConst.continueReturnMessage} {UiConst.enterMessage}");
+            sw.WriteLine($"Add item prices (separated with enter) to {groups.selectedGroupName} {UiConstants.ContinueReturnMessage} {UiConstants.EnterMessage}");
 
             return sw.ToString();
         }
 
         public static string ShowPricesDatas(Groups groups, Receipt receipt)
         {
-            Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
+            Group selectedGroup = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
             StringWriter sw = new();
-            sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(receipt.Currency!)} ");
-            sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(receipt.Currency!)} \n");
+            sw.WriteLine($"{selectedGroup.Name}, total price to pay is: {selectedGroup.ToStringTotal(receipt.Currency!)} ");
+            sw.WriteLine($"With service fee included: {selectedGroup.ToStringTotalWithFee(receipt.Currency!)} \n");
             sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(receipt.Currency!)} ");
             sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(receipt.Currency!)}");
-            sw.WriteLine(UiConst.divLineNAfter);
+            sw.WriteLine(UiConstants.DivLineNAfter);
 
             return sw.ToString();
         }
@@ -30,7 +30,7 @@ namespace Bill.Ui
         public static string ShowSelectableGroups()
         {
             StringWriter sw = new();
-            sw.WriteLine($"Select a group/person to add prices to! {UiConst.continueReturnMessage} {UiConst.enterMessage}\n");
+            sw.WriteLine($"Select a group/person to add prices to! {UiConstants.ContinueReturnMessage} {UiConstants.EnterMessage}\n");
             sw.WriteLine("Options:");
             int num = 0;
 
@@ -48,7 +48,7 @@ namespace Bill.Ui
         public static string ChooseServiceFeeMessage(Group selectedGroup, string currency)
         {
             StringWriter sw = new();
-            sw.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total} {currency}) {UiConst.continueReturnMessage} {UiConst.enterMessage}");
+            sw.WriteLine($"Choose service fee: (Current total: {selectedGroup.Total} {currency}) {UiConstants.ContinueReturnMessage} {UiConstants.EnterMessage}");
             sw.WriteLine($"1) {(int)ServiceFee.zero}% fee");
             sw.WriteLine($"2) {(int)ServiceFee.low}% fee");
             sw.WriteLine($"3) {(int)ServiceFee.medium}% fee");
@@ -61,7 +61,7 @@ namespace Bill.Ui
         {
             StringWriter sw = new();
             sw.WriteLine("Already calculated!");
-            sw.WriteLine($"Calculate anyway? (y/n) {UiConst.enterMessage}");
+            sw.WriteLine($"Calculate anyway? (y/n) {UiConstants.EnterMessage}");
             string? input = Console.ReadLine();
 
             if (input == "n")
@@ -70,7 +70,7 @@ namespace Bill.Ui
             }
             else if (input != "y")
             {
-                sw.WriteLine($"Wrong userInput! Type 'y' or 'n'! {UiConst.enterMessage}");
+                sw.WriteLine($"Wrong userInput! Type 'y' or 'n'! {UiConstants.EnterMessage}");
             }
 
             return sw.ToString();
@@ -79,7 +79,7 @@ namespace Bill.Ui
         public static string ShowCurrencies()
         {
             StringWriter sw = new();
-            sw.WriteLine($"Select a currency! {UiConst.returnMessage} {UiConst.enterMessage}\n");
+            sw.WriteLine($"Select a currency! {UiConstants.ReturnMessage} {UiConstants.EnterMessage}\n");
             sw.WriteLine("Options:");
             sw.WriteLine($"1) {Currency.USD}");
             sw.WriteLine($"2) {Currency.EUR}");

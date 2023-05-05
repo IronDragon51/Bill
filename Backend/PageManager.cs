@@ -55,7 +55,7 @@ namespace Bill.Backend
 
         private static void NullOrEmptyCheck(string selectedGroup)
         {
-            if (!string.IsNullOrEmpty(selectedGroup))
+            if (!string.IsNullOrWhiteSpace(selectedGroup))
             {
                 currentPage = Page.AddItemPricesPage;
             }

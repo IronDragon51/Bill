@@ -12,8 +12,8 @@ namespace Bill.FullStack
         public static void AddGroups(Groups groups, Receipt receipt)
         {
             Regex hungarianLettersRegex = new("^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű ]*$");
-            UiConst._message.ShowMessage(UiMessage.AddGroupsMessage());
-            UiConst._message.ShowMessage(UiMessage.ShowAllGroups());
+            UiConstants._message.ShowMessage(UiMessage.AddGroupsMessage());
+            UiConstants._message.ShowMessage(UiMessage.ShowAllGroups());
 
             while (true)
             {
@@ -29,7 +29,7 @@ namespace Bill.FullStack
                     }
                     else
                     {
-                        UiConst._message.ShowMessage(UiConst.noGroupsMessage);
+                        UiConstants._message.ShowMessage(UiConstants.NoGroupsMessage);
 
                         continue;
                     }
@@ -45,11 +45,11 @@ namespace Bill.FullStack
                 }
                 else if (string.IsNullOrWhiteSpace(newGroup))
                 {
-                    UiConst._message.ShowMessage(UiConst.emptyNameWrongInputMessage);
+                    UiConstants._message.ShowMessage(UiConstants.EmptyNameWrongInputMessage);
                 }
                 else if (Groups.groups.Any(n => n.Name == newGroup))
                 {
-                    UiConst._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
+                    UiConstants._message.ShowMessage(UiMessage.GroupExistsWrongInputMessage(newGroup));
                 }
                 else
                 {
@@ -73,7 +73,7 @@ namespace Bill.FullStack
 
         public static void AddItemPrices(Groups groups, Receipt receipt)
         {
-            UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(groups));
+            UiConstants._menu.ShowMenu(UiMenu.GetItemPricesMessage(groups));
             Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
             double price = 0;
             bool success = false;
@@ -90,7 +90,7 @@ namespace Bill.FullStack
                 }
                 else if (input == "0")
                 {
-                    UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(group, receipt));
+                    UiConstants._message.ShowMessage(UiMessage.TotalPayInfoMessage(group, receipt));
                     PageManager.currentPage = Page.ChooseServiceFeePage;
                     return;
                 }
@@ -103,11 +103,11 @@ namespace Bill.FullStack
                 {
                     group!.Total += price;
                     receipt.Total += price;
-                    UiConst._message.ShowMessage(UiMessage.AddedPriceInfoMessage(group, price, receipt));
+                    UiConstants._message.ShowMessage(UiMessage.AddedPriceInfoMessage(group, price, receipt));
                 }
                 else
                 {
-                    UiConst._message.ShowMessage(UiConst.nothingAddedWrongInputMessage);
+                    UiConstants._message.ShowMessage(UiConstants.NothingAddedWrongInputMessage);
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace Bill.FullStack
                         break;
 
                     default:
-                        UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
+                        UiConstants._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 4));
                         feeChoosen = Console.ReadLine()!;
                         break;
                 }

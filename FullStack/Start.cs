@@ -7,8 +7,8 @@ namespace Bill.FullStack
     {
         public static void Welcome()
         {
-            UiConst._message.ShowMessage(UiMessage.WelcomeMessage());
-            UiConst._message.ShowMessage(UiMessage.ContinueMessage());
+            UiConstants._message.ShowMessage(UiMessage.WelcomeMessage());
+            UiConstants._message.ShowMessage(UiMessage.ContinueMessage());
             PageManager.currentPage = Page.AddGroupsPage;
         }
     }
