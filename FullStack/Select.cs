@@ -11,12 +11,11 @@ namespace Bill.FullStack
         {
             UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
-
             groups.selectedGroupName = ConsoleExtraMethods.GetReadLineString();
 
             if (groups.selectedGroupName == "00")
             {
-                PageManager.page = PageManager.SelectCurrency;
+                PageManager.currentPage = Page.SelectCurrencyPage;
                 return "00";
             }
             else
@@ -68,7 +67,7 @@ namespace Bill.FullStack
                         break;
 
                     case "00":
-                        PageManager.page = PageManager.AddGroups;
+                        PageManager.currentPage = Page.AddGroupsPage;
                         exit = true;
                         break;
 
@@ -79,7 +78,7 @@ namespace Bill.FullStack
                 }
             }
 
-            PageManager.page = PageManager.SelectGroup;
+            PageManager.currentPage = Page.SelectGroupPage;
         }
     }
 }

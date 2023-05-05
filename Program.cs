@@ -6,7 +6,7 @@ namespace Bill
     {
         public static void Main()
         {
-            PageManager.Run();
+            PageManager.ManagePages();
         }
     }
 }

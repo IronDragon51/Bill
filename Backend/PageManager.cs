@@ -3,47 +3,50 @@ using Bill.FullStack;
 
 namespace Bill.Backend
 {
+    public enum Page
+    {
+        WelcomePage,
+        AddGroupsPage,
+        SelectCurrencyPage,
+        SelectGroupPage,
+        AddItemPricesPage,
+        ChooseServiceFeePage
+    }
+
     public static class PageManager
     {
-        public const string Welcome = "Welcome";
-        public const string AddGroups = "AddGroups";
-        public const string SelectCurrency = "SelectCurrency";
-        public const string SelectGroup = "SelectGroup";
-        public const string AddItemPrices = "AddItemPrices";
-        public const string ChooseServiceFee = "ChooseServiceFee";
-        public static string? page = Welcome;
+        public static Page currentPage = Page.WelcomePage;
 
-        public static void Run()
+        public static void ManagePages()
         {
-            Groups groups = new();
-            Receipt receipt = new();
+            CreateNew.CreateGroupsAndReceipt(out Groups groups, out Receipt receipt);
 
             while (true)
             {
-                switch (page)
+                switch (currentPage)
                 {
-                    case Welcome:
+                    case Page.WelcomePage:
                         Start.Welcome();
                         break;
 
-                    case AddGroups:
+                    case Page.AddGroupsPage:
                         Add.AddGroups(groups, receipt);
                         break;
 
-                    case SelectCurrency:
+                    case Page.SelectCurrencyPage:
                         Select.SelectCurrency(receipt);
                         break;
 
-                    case SelectGroup:
+                    case Page.SelectGroupPage:
                         string selectedGroup = Select.SelectGroup(groups, receipt);
                         NullOrEmptyCheck(selectedGroup);
                         break;
 
-                    case AddItemPrices:
+                    case Page.AddItemPricesPage:
                         Add.AddItemPrices(groups, receipt);
                         break;
 
-                    case ChooseServiceFee:
+                    case Page.ChooseServiceFeePage:
                         Service.ManageServiceFee(groups, receipt);
                         break;
                 }
@@ -54,7 +57,7 @@ namespace Bill.Backend
         {
             if (!string.IsNullOrEmpty(selectedGroup))
             {
-                page = AddItemPrices;
+                currentPage = Page.AddItemPricesPage;
             }
         }
     }

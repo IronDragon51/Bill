@@ -23,7 +23,7 @@ namespace Bill.FullStack
                 {
                     if (Groups.groups.Count > 0)
                     {
-                        PageManager.page = PageManager.SelectCurrency;
+                        PageManager.currentPage = Page.SelectCurrencyPage;
 
                         return;
                     }
@@ -37,7 +37,7 @@ namespace Bill.FullStack
 
                 if (newGroup == "00")
                 {
-                    PageManager.page = PageManager.Welcome;
+                    PageManager.currentPage = Page.WelcomePage;
                 }
                 else if (!ValidateHungarianLettersInput(hungarianLettersRegex, newGroup))
                 {
@@ -53,7 +53,7 @@ namespace Bill.FullStack
                 }
                 else
                 {
-                    PageManager.page = PageManager.SelectCurrency;
+                    PageManager.currentPage = Page.SelectCurrencyPage;
                     Groups.AddNewGroup(newGroup);
                 }
             }
@@ -85,13 +85,13 @@ namespace Bill.FullStack
 
                 if (input == "00")
                 {
-                    PageManager.page = PageManager.SelectGroup;
+                    PageManager.currentPage = Page.SelectGroupPage;
                     return;
                 }
                 else if (input == "0")
                 {
                     UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(group, receipt));
-                    PageManager.page = PageManager.ChooseServiceFee;
+                    PageManager.currentPage = Page.ChooseServiceFeePage;
                     return;
                 }
                 else
@@ -123,23 +123,27 @@ namespace Bill.FullStack
                 switch (feeChoosen)
                 {
                     case "1":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.zero);
+                        serviceFeePercent = Calculation.SetFeePercent(ServiceFee.zero);
+                        exit = true;
                         break;
 
                     case "2":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.low);
+                        serviceFeePercent = Calculation.SetFeePercent(ServiceFee.low);
+                        exit = true;
                         break;
 
                     case "3":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.medium);
+                        serviceFeePercent = Calculation.SetFeePercent(ServiceFee.medium);
+                        exit = true;
                         break;
 
                     case "4":
-                        serviceFeePercent = Calculation.SetFeePercent(out exit, ServiceFee.high);
+                        serviceFeePercent = Calculation.SetFeePercent(ServiceFee.high);
+                        exit = true;
                         break;
 
                     case "00":
-                        PageManager.page = PageManager.AddItemPrices;
+                        PageManager.currentPage = Page.AddItemPricesPage;
                         exit = true;
                         break;
 

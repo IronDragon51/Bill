@@ -31,5 +31,4 @@
             return string.Format("{0} - {1}", Math.Round(TotalWithFee, 2), currency);
         }
     }
-
 }

@@ -6,7 +6,7 @@ using Group = Bill.Definition.Group;
 
 namespace Bill.FullStack
 {
-    public class Service
+    public static class Service
     {
         private static readonly IMenu _menu = new ConsoleImplementationMenu();
 
@@ -23,10 +23,11 @@ namespace Bill.FullStack
         {
             string choice = ChooseServiceFee(groups, receipt);
             double serviceFeePercent = Add.AddServiceFee(groups, choice, receipt);
-            Calculation.GetTotalsWithFee(groups, receipt, serviceFeePercent);
+            Calculation.UpdateTotalsWithFee(groups, receipt, serviceFeePercent);
             UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(groups, receipt));
+            UiConst._message.ShowMessage(UiMessage.ContinueMessage());
             Calculation.CheckAllCalculated(groups, receipt);
-            PageManager.page = PageManager.SelectGroup;
+            PageManager.currentPage = Page.SelectGroupPage;
         }
     }
 }

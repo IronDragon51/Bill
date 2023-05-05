@@ -9,8 +9,7 @@ namespace Bill.FullStack
         {
             UiConst._message.ShowMessage(UiMessage.WelcomeMessage());
             UiConst._message.ShowMessage(UiMessage.ContinueMessage());
-            PageManager.page = PageManager.AddGroups;
-
+            PageManager.currentPage = Page.AddGroupsPage;
         }
     }
 }
