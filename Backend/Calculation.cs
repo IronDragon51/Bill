@@ -1,12 +1,11 @@
 ﻿using Bill.Definition;
-using Bill.FullStack;
 using Bill.Ui;
 
 namespace Bill.Backend
 {
     public static class Calculation
     {
-        public static bool CheckAllCalculated(Groups groups, Receipt receipt)
+        public static void CheckAllCalculated(Groups groups, Receipt receipt)
         {
             UiConst._message.ShowMessage(UiMessage.ContinueMessage());
 
@@ -14,16 +13,8 @@ namespace Bill.Backend
             {
                 //if (!Console.IsOutputRedirected)
                 //{
-                UiConst._menu.ShowMenu(UiMenu.AllGroupsCalculatedMessage(receipt));
+                UiConst._message.ShowMessage(UiMessage.AllGroupsCalculatedMessage(receipt));
                 //}
-
-                return true;
-            }
-            else
-            {
-                Add.AddLoop(groups, receipt);
-
-                return false;
             }
         }
 
@@ -33,9 +24,10 @@ namespace Bill.Backend
             return (double)fee;
         }
 
-        public static void GetTotalsWithFee(Group group, Receipt receipt, double serviceFeePercent)
+        public static void GetTotalsWithFee(Groups groups, Receipt receipt, double serviceFeePercent)
         {
-            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent) / 100;
+            Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
+            group!.TotalWithFee = group.Total + (group.Total * serviceFeePercent / 100);
             receipt.TotalWithFee += group.TotalWithFee;
         }
     }

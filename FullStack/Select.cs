@@ -7,15 +7,16 @@ namespace Bill.FullStack
 {
     public static class Select
     {
-        public static string? SelectGroup(Groups groups, Receipt receipt)
+        public static string SelectGroup(Groups groups, Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
+
             groups.selectedGroupName = ConsoleExtraMethods.GetReadLineString();
 
             if (groups.selectedGroupName == "00")
             {
-                receipt.Currency = SelectCurrency(groups, receipt);
+                return "00";
             }
             else
             {
@@ -25,8 +26,10 @@ namespace Bill.FullStack
             if (group == null)
             {
                 UiConst._message.ShowMessage(UiMessage.WaitKeyPressMessage());
-                return null;
+                return "";
             }
+
+            groups.selectedGroupName = group.Name;
 
             if (group!.Total > 0)
             {
@@ -37,11 +40,10 @@ namespace Bill.FullStack
         }
 
 
-        public static string SelectCurrency(Groups groups, Receipt receipt)
+        public static void SelectCurrency(Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.ShowCurrencies());
 
-            string currency = "";
             string? choice = ConsoleExtraMethods.GetReadLineString();
             bool exit = false;
 
@@ -50,16 +52,24 @@ namespace Bill.FullStack
                 switch (choice)
                 {
                     case "1":
-                        return Currency.USD.ToString();
+                        receipt.Currency = Currency.USD.ToString();
+                        exit = true;
+                        break;
 
                     case "2":
-                        return Currency.EUR.ToString();
+                        receipt.Currency = Currency.EUR.ToString();
+                        exit = true;
+                        break;
 
                     case "3":
-                        return Currency.HUF.ToString();
+                        receipt.Currency = Currency.HUF.ToString();
+                        exit = true;
+                        break;
 
                     case "00":
-                        return "00";
+                        PageManager.page = PageManager.AddGroups;
+                        exit = true;
+                        break;
 
                     default:
                         UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));
@@ -68,7 +78,7 @@ namespace Bill.FullStack
                 }
             }
 
-            return currency;
+            PageManager.page = PageManager.SelectGroup;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Bill.FullStack
             _menu.ShowMenu(UiMenu.ChooseServiceFeeMessage(selectedGroup, receipt.Currency!));
 
             string choice = Console.ReadLine()!;
-            Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
+            //Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
 
             return choice;
         }

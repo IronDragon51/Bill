@@ -15,7 +15,7 @@
             {
                 Console.ReadKey(true);
             }
-            else if (message.Contains("All groups / person calculated!"))
+            else if (message.Contains("persons calculated!"))
             {
                 Environment.Exit(0);
             }

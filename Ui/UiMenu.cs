@@ -1,20 +1,22 @@
 ﻿using Bill.Definition;
 using Bill.FullStack;
+using Group = Bill.Definition.Group;
 
 namespace Bill.Ui
 {
     public class UiMenu
     {
-        public static string GetItemPricesMessage(string selectedGroupName)
+        public static string GetItemPricesMessage(Groups groups)
         {
             StringWriter sw = new();
-            sw.WriteLine($"Add item prices (separated with enter) to {selectedGroupName} {UiConst.continueReturnMessage} {UiConst.enterMessage}");
+            sw.WriteLine($"Add item prices (separated with enter) to {groups.selectedGroupName} {UiConst.continueReturnMessage} {UiConst.enterMessage}");
 
             return sw.ToString();
         }
 
-        public static string ShowPricesDatas(Group group, Receipt receipt)
+        public static string ShowPricesDatas(Groups groups, Receipt receipt)
         {
+            Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
             StringWriter sw = new();
             sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(receipt.Currency!)} ");
             sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(receipt.Currency!)} \n");
@@ -24,21 +26,6 @@ namespace Bill.Ui
 
             return sw.ToString();
         }
-
-        public static string AllGroupsCalculatedMessage(Receipt receipt)
-        {
-            StringWriter sw = new();
-            sw.WriteLine("All groups/person calculated!\n");
-            sw.WriteLine("Name \t Total \t\t Total with fee");
-
-            foreach (Group currGroup in Groups.groups)
-            {
-                sw.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(receipt.Currency!)} \t\t {currGroup.ToStringTotalWithFee(receipt.Currency!)}");
-            }
-
-            return sw.ToString();
-        }
-
 
         public static string ShowSelectableGroups()
         {
@@ -83,7 +70,7 @@ namespace Bill.Ui
             }
             else if (input != "y")
             {
-                sw.WriteLine($"Wrong input! Type 'y' or 'n'! {UiConst.enterMessage}");
+                sw.WriteLine($"Wrong userInput! Type 'y' or 'n'! {UiConst.enterMessage}");
             }
 
             return sw.ToString();
