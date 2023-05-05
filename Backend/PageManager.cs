@@ -1,6 +1,5 @@
 ﻿using Bill.Definition;
 using Bill.FullStack;
-using Bill.Ui;
 
 namespace Bill.Backend
 {
@@ -52,12 +51,7 @@ namespace Bill.Backend
                 }
                 else if (page == ChooseServiceFee)
                 {
-                    string choice = Service.ChooseServiceFee(groups, receipt);
-                    double serviceFeePercent = Add.AddServiceFee(groups, choice, receipt);
-                    Calculation.GetTotalsWithFee(groups, receipt, serviceFeePercent);
-                    UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(groups, receipt));
-                    Calculation.CheckAllCalculated(groups, receipt);
-                    page = SelectGroup;
+                    Service.ManageServiceFee(groups, receipt);
                 }
             }
         }

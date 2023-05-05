@@ -11,10 +11,7 @@ namespace Bill.Backend
 
             if (Groups.groups.All(g => g.Total > 0))
             {
-                //if (!Console.IsOutputRedirected)
-                //{
                 UiConst._message.ShowMessage(UiMessage.AllGroupsCalculatedMessage(receipt));
-                //}
             }
         }
 
