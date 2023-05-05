@@ -12,7 +12,6 @@ namespace Bill.Backend
         public const string AddItemPrices = "AddItemPrices";
         public const string ChooseServiceFee = "ChooseServiceFee";
         public static string? page = Welcome;
-        public static string userInput;
 
         public static void Run()
         {
@@ -21,38 +20,41 @@ namespace Bill.Backend
 
             while (true)
             {
-                if (page == Welcome)
+                switch (page)
                 {
-                    Start.Welcome(groups, receipt);
-                    page = AddGroups;
-                }
-                else if (page == AddGroups)
-                {
-                    Add.AddGroups(groups, receipt);
-                }
-                else if (page == SelectCurrency)
-                {
-                    Select.SelectCurrency(receipt);
-                }
-                else if (page == SelectGroup)
-                {
-                    string selectedGroup = "";
+                    case Welcome:
+                        Start.Welcome();
+                        break;
 
-                    while (string.IsNullOrEmpty(selectedGroup))
-                    {
-                        selectedGroup = Select.SelectGroup(groups, receipt);
-                    }
+                    case AddGroups:
+                        Add.AddGroups(groups, receipt);
+                        break;
 
-                    page = AddItemPrices;
+                    case SelectCurrency:
+                        Select.SelectCurrency(receipt);
+                        break;
+
+                    case SelectGroup:
+                        string selectedGroup = Select.SelectGroup(groups, receipt);
+                        NullOrEmptyCheck(selectedGroup);
+                        break;
+
+                    case AddItemPrices:
+                        Add.AddItemPrices(groups, receipt);
+                        break;
+
+                    case ChooseServiceFee:
+                        Service.ManageServiceFee(groups, receipt);
+                        break;
                 }
-                else if (page == AddItemPrices)
-                {
-                    Add.AddItemPrices(groups, receipt);
-                }
-                else if (page == ChooseServiceFee)
-                {
-                    Service.ManageServiceFee(groups, receipt);
-                }
+            }
+        }
+
+        private static void NullOrEmptyCheck(string selectedGroup)
+        {
+            if (!string.IsNullOrEmpty(selectedGroup))
+            {
+                page = AddItemPrices;
             }
         }
     }

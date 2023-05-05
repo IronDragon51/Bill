@@ -24,6 +24,8 @@ namespace Bill.FullStack
                     if (Groups.groups.Count > 0)
                     {
                         PageManager.page = PageManager.SelectCurrency;
+
+                        return;
                     }
                     else
                     {
