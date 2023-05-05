@@ -10,20 +10,19 @@ namespace Bill.FullStack
     {
         public static void AddLoop(Groups groups, Receipt receipt)
         {
-            string? selectedGroup = null;
             Group? group = null;
 
-            while (group == null && (selectedGroup == null || selectedGroup == ""))
+            while (group == null && (groups.selectedGroupName == null || groups.selectedGroupName == ""))
             {
-                selectedGroup = Select.SelectGroup(groups, receipt);
-                if (selectedGroup == "00")
+                groups.selectedGroupName = Select.SelectGroup(groups, receipt);
+                if (groups.selectedGroupName == "00")
                 {
                     AddGroups(groups, receipt);
                 }
-                group = AddItemPrices(selectedGroup, receipt);
+                group = AddItemPrices(groups, receipt);
             }
 
-            string choice = Service.ChooseServiceFee(selectedGroup, receipt);
+            string choice = Service.ChooseServiceFee(groups, receipt);
             AddServiceFee(group, groups, choice, receipt);
         }
 
@@ -88,7 +87,7 @@ namespace Bill.FullStack
                 }
                 else
                 {
-                    groups.AddNewGroup(newGroup);
+                    Groups.AddNewGroup(newGroup);
                 }
             }
             return false;
@@ -105,9 +104,9 @@ namespace Bill.FullStack
         }
 
 
-        public static Group AddItemPrices(string selectedGroupName, Receipt receipt)
+        public static Group AddItemPrices(Groups groups, Receipt receipt)
         {
-            UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupName));
+            UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(groups.selectedGroupName));
             Group group = new("");
             double price = 0;
             bool exit = false;
@@ -115,7 +114,7 @@ namespace Bill.FullStack
             while (!exit)
             {
                 bool success = double.TryParse(Console.ReadLine(), out price);
-                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
+                group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
 
                 if (success && price == 00)
                 {

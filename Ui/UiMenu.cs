@@ -20,7 +20,7 @@ namespace Bill.Ui
             sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(receipt.Currency!)} \n");
             sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(receipt.Currency!)} ");
             sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(receipt.Currency!)}");
-            sw.WriteLine(UiConst._divLineNAfter);
+            sw.WriteLine(UiConst.divLineNAfter);
 
             return sw.ToString();
         }

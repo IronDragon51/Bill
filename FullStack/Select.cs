@@ -11,15 +11,15 @@ namespace Bill.FullStack
         {
             UiConst._menu.ShowMenu(UiMenu.ShowSelectableGroups());
             Group? group = new("");
-            string selectedGroup = ConsoleExtraMethods.GetReadLineString();
+            groups.selectedGroupName = ConsoleExtraMethods.GetReadLineString();
 
-            if (selectedGroup == "00")
+            if (groups.selectedGroupName == "00")
             {
                 receipt.Currency = SelectCurrency(groups, receipt);
             }
             else
             {
-                group = ErrorHandle.CheckGroupExistence(group, selectedGroup);
+                group = ErrorHandle.CheckGroupExistence(group, groups.selectedGroupName);
             }
 
             if (group == null)
