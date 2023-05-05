@@ -60,8 +60,6 @@ namespace Bill.FullStack
 
                     case "00":
                         return "00";
-                    //Add.AddGroups(groups, receipt);
-                    //SelectCurrency(groups, receipt);
 
                     default:
                         UiConst._message.ShowMessage(UiMessage.ChooseAgainWrongInputMessage(1, 3));

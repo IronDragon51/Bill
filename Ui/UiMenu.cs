@@ -16,10 +16,10 @@ namespace Bill.Ui
         public static string ShowPricesDatas(Group group, Receipt receipt)
         {
             StringWriter sw = new();
-            sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(receipt.Currency)} ");
-            sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(receipt.Currency)} \n");
-            sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(receipt.Currency)} ");
-            sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(receipt.Currency)}");
+            sw.WriteLine($"{group.Name}, total price to pay is: {group.ToStringTotal(receipt.Currency!)} ");
+            sw.WriteLine($"With service fee included: {group.ToStringTotalWithFee(receipt.Currency!)} \n");
+            sw.WriteLine($"For everyone, total price to pay is: {receipt.ToStringTotal(receipt.Currency!)} ");
+            sw.WriteLine($"With service fee included: {receipt.ToStringTotalWithFee(receipt.Currency!)}");
             sw.WriteLine(UiConst._divLineNAfter);
 
             return sw.ToString();
@@ -33,7 +33,7 @@ namespace Bill.Ui
 
             foreach (Group currGroup in Groups.groups)
             {
-                sw.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(receipt.Currency)} \t\t {currGroup.ToStringTotalWithFee(receipt.Currency)}");
+                sw.WriteLine($"{currGroup.Name} \t {currGroup.ToStringTotal(receipt.Currency!)} \t\t {currGroup.ToStringTotalWithFee(receipt.Currency!)}");
             }
 
             return sw.ToString();

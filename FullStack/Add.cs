@@ -11,13 +11,18 @@ namespace Bill.FullStack
         public static void AddLoop(Groups groups, Receipt receipt)
         {
             string? selectedGroup = null;
+            Group? group = null;
 
-            while (selectedGroup == null || selectedGroup == "")
+            while (group == null && (selectedGroup == null || selectedGroup == ""))
             {
                 selectedGroup = Select.SelectGroup(groups, receipt);
+                if (selectedGroup == "00")
+                {
+                    AddGroups(groups, receipt);
+                }
+                group = AddItemPrices(selectedGroup, receipt);
             }
 
-            Group group = AddItems(selectedGroup, receipt);
             string choice = Service.ChooseServiceFee(selectedGroup, receipt);
             AddServiceFee(group, groups, choice, receipt);
         }
@@ -41,19 +46,19 @@ namespace Bill.FullStack
 
                         while (true)
                         {
-
                             string currency = Select.SelectCurrency(groups, receipt);
                             AddLoop(groups, receipt);
 
                             if (currency == "00")
                             {
-                                AddGroups(groups, receipt);
+                                AddGroups(groups, receipt); //meghivja sajat magat ha 00-t irunk a select currencyben
                             }
                             else
                             {
                                 currency = Select.SelectCurrency(groups, receipt);
                                 AddLoop(groups, receipt);
                             }
+
                             return false;
                         }
 
@@ -65,13 +70,13 @@ namespace Bill.FullStack
                     }
                 }
 
-                if (!ValidateHungarianLettersInput(hungarianLettersRegex, newGroup))
-                {
-                    continue;
-                }
-                else if (newGroup == "00")
+                if (newGroup == "00")
                 {
                     return true;
+                }
+                else if (!ValidateHungarianLettersInput(hungarianLettersRegex, newGroup))
+                {
+                    continue;
                 }
                 else if (string.IsNullOrWhiteSpace(newGroup))
                 {
@@ -86,7 +91,7 @@ namespace Bill.FullStack
                     groups.AddNewGroup(newGroup);
                 }
             }
-
+            return false;
         }
 
         private static bool ValidateHungarianLettersInput(Regex hungarianLettersRegex, string newGroup)
@@ -100,18 +105,23 @@ namespace Bill.FullStack
         }
 
 
-        public static Group AddItems(string selectedGroupNumber, Receipt receipt)
+        public static Group AddItemPrices(string selectedGroupName, Receipt receipt)
         {
-            UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupNumber));
+            UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(selectedGroupName));
             Group group = new("");
             double price = 0;
+            bool exit = false;
 
-            while (true)
+            while (!exit)
             {
                 bool success = double.TryParse(Console.ReadLine(), out price);
-                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupNumber)!;
+                group = Groups.groups.FirstOrDefault(g => g.Name == selectedGroupName)!;
 
-                if (success && price != 0)
+                if (success && price == 00)
+                {
+                    return group;
+                }
+                else if (success && price != 0)
                 {
                     group!.Total += price;
                     receipt.Total += price;
@@ -120,7 +130,7 @@ namespace Bill.FullStack
                 else if (success && price == 0)
                 {
                     UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(group, receipt));
-                    break;
+                    exit = true;
                 }
                 else
                 {
