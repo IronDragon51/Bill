@@ -44,45 +44,20 @@ namespace Bill.Backend
                         selectedGroup = Select.SelectGroup(groups, receipt);
                     }
 
-                    if (selectedGroup == "00")
-                    {
-                        page = SelectCurrency;
-                    }
-                    else
-                    {
-                        page = AddItemPrices;
-                    }
-
+                    page = AddItemPrices;
                 }
                 else if (page == AddItemPrices)
                 {
-                    bool goToNextPage = Add.AddItemPrices(groups, receipt);
-
-                    if (goToNextPage == false)
-                    {
-                        page = SelectGroup;
-                    }
-                    else
-                    {
-                        page = ChooseServiceFee;
-                    }
+                    Add.AddItemPrices(groups, receipt);
                 }
                 else if (page == ChooseServiceFee)
                 {
                     string choice = Service.ChooseServiceFee(groups, receipt);
                     double serviceFeePercent = Add.AddServiceFee(groups, choice, receipt);
-
-                    if (serviceFeePercent == -1)
-                    {
-                        page = AddItemPrices;
-                    }
-                    else
-                    {
-                        Calculation.GetTotalsWithFee(groups, receipt, serviceFeePercent);
-                        UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(groups, receipt));
-                        Calculation.CheckAllCalculated(groups, receipt);
-                        page = SelectGroup;
-                    }
+                    Calculation.GetTotalsWithFee(groups, receipt, serviceFeePercent);
+                    UiConst._menu.ShowMenu(UiMenu.ShowPricesDatas(groups, receipt));
+                    Calculation.CheckAllCalculated(groups, receipt);
+                    page = SelectGroup;
                 }
             }
         }

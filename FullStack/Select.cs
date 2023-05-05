@@ -16,6 +16,7 @@ namespace Bill.FullStack
 
             if (groups.selectedGroupName == "00")
             {
+                PageManager.page = PageManager.SelectCurrency;
                 return "00";
             }
             else

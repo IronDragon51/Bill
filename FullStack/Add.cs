@@ -9,31 +9,11 @@ namespace Bill.FullStack
 {
     public static class Add
     {
-        public static void AddLoop(Groups groups, Receipt receipt)
-        {
-            Group? group = null;
-
-            while (group == null && (groups.selectedGroupName == null || groups.selectedGroupName == ""))
-            {
-                groups.selectedGroupName = Select.SelectGroup(groups, receipt);
-                if (groups.selectedGroupName == "00")
-                {
-                    AddGroups(groups, receipt);
-                }
-                AddItemPrices(groups, receipt);
-            }
-
-            string choice = Service.ChooseServiceFee(groups, receipt);
-            AddServiceFee(groups, choice, receipt);
-        }
-
-
-        public static string AddGroups(Groups groups, Receipt receipt)
+        public static void AddGroups(Groups groups, Receipt receipt)
         {
             Regex hungarianLettersRegex = new("^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű ]*$");
             UiConst._message.ShowMessage(UiMessage.AddGroupsMessage());
             UiConst._message.ShowMessage(UiMessage.ShowAllGroups());
-            bool goToNextPage = false;
 
             while (true)
             {
@@ -43,11 +23,12 @@ namespace Bill.FullStack
                 {
                     if (Groups.groups.Count > 0)
                     {
-                        return "0";
+                        PageManager.page = PageManager.SelectCurrency;
                     }
                     else
                     {
                         UiConst._message.ShowMessage(UiConst.noGroupsMessage);
+
                         continue;
                     }
                 }
@@ -55,7 +36,6 @@ namespace Bill.FullStack
                 if (newGroup == "00")
                 {
                     PageManager.page = PageManager.Welcome;
-                    return "00";
                 }
                 else if (!ValidateHungarianLettersInput(hungarianLettersRegex, newGroup))
                 {
@@ -84,11 +64,12 @@ namespace Bill.FullStack
                 Console.WriteLine("Invalid userInput. Please enter only Hungarian letters!");
                 return false;
             }
+
             return true;
         }
 
 
-        public static bool AddItemPrices(Groups groups, Receipt receipt)
+        public static void AddItemPrices(Groups groups, Receipt receipt)
         {
             UiConst._menu.ShowMenu(UiMenu.GetItemPricesMessage(groups));
             Group group = Groups.groups.FirstOrDefault(g => g.Name == groups.selectedGroupName)!;
@@ -102,13 +83,14 @@ namespace Bill.FullStack
 
                 if (input == "00")
                 {
-                    return goToNextPage = false;
+                    PageManager.page = PageManager.SelectGroup;
+                    return;
                 }
                 else if (input == "0")
                 {
                     UiConst._message.ShowMessage(UiMessage.TotalPayInfoMessage(group, receipt));
-
-                    return goToNextPage = true;
+                    PageManager.page = PageManager.ChooseServiceFee;
+                    return;
                 }
                 else
                 {
@@ -126,8 +108,6 @@ namespace Bill.FullStack
                     UiConst._message.ShowMessage(UiConst.nothingAddedWrongInputMessage);
                 }
             }
-
-            return goToNextPage;
         }
 
 
@@ -157,7 +137,7 @@ namespace Bill.FullStack
                         break;
 
                     case "00":
-                        serviceFeePercent = -1;
+                        PageManager.page = PageManager.AddItemPrices;
                         exit = true;
                         break;
 
