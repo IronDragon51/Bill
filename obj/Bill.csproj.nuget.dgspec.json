@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\VS\\Bill\\Bill.csproj": {}
+    "C:\\VS\\Bill_Full\\Bill\\Bill.csproj": {}
   },
   "projects": {
-    "C:\\VS\\Bill\\Bill.csproj": {
+    "C:\\VS\\Bill_Full\\Bill\\Bill.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\VS\\Bill\\Bill.csproj",
+        "projectUniqueName": "C:\\VS\\Bill_Full\\Bill\\Bill.csproj",
         "projectName": "Bill",
-        "projectPath": "C:\\VS\\Bill\\Bill.csproj",
+        "projectPath": "C:\\VS\\Bill_Full\\Bill\\Bill.csproj",
         "packagesPath": "C:\\Users\\z004rd5j\\.nuget\\packages\\",
-        "outputPath": "C:\\VS\\Bill\\obj\\",
+        "outputPath": "C:\\VS\\Bill_Full\\Bill\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\z004rd5j\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -38,6 +38,7 @@ namespace Bill.FullStack
                 if (newGroup == "00")
                 {
                     PageManager.currentPage = Page.WelcomePage;
+                    break;
                 }
                 else if (!ValidateHungarianLettersInput(hungarianLettersRegex, newGroup))
                 {

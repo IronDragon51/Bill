@@ -4,7 +4,7 @@
     {
         public void ShowMessage(string message)
         {
-            if (message.Contains("Add groups") || message.Contains("WelcomePage"))
+            if (message.Contains("Add groups") || message.Contains("Welcome"))
             {
                 Console.Clear();
             }
